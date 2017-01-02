@@ -1,0 +1,20 @@
+body {
+  background: #232F3D;
+  margin: 0;
+  /*text-align: center;*/
+}
+
+.newTripIcon {
+  position: relative;
+  top: 6px;
+  color: #303F9F !important;
+}
+
+.createNewTripLink {
+  color: #303F9F;
+}
+
+.cardHeader {
+  padding-bottom: 0px;
+  text-align: right;
+}

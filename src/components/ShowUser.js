@@ -6,7 +6,9 @@ export default class ShowUser extends Component {
     return (
       <div>
         <Header />
+        <div style={{paddingTop: '65px'}}>
         {this.props.children}
+        </div>
       </div>
     );
   }

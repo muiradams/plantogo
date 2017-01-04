@@ -21,7 +21,7 @@ class TripList extends Component {
   render() {
     const trips = this.props.trips;
     return (
-      <div>
+      <div className="welcome">
         <NewTripCard numTrips={trips.length} />
         {this.renderTripList(trips)}
       </div>

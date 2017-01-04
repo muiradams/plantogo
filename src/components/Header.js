@@ -15,15 +15,18 @@ export default class Header extends Component {
         cursor: 'pointer',
         position: 'relative',
         left: '15px',
+        fontFamily: '"Roboto", Arial, Helvetica, sans-serif',
+        fontWeight: 100,
       },
       bar: {
         background: '#303F9F',
+        position: 'fixed',
       }
     };
 
     return(
       <AppBar
-        title={<span style={styles.title}>Plan to Go</span>}
+        title={<span style={styles.title}>plan to go</span>}
         onTitleTouchTap={this.handleTouchTap}
         iconElementRight={<FlatButton label="Logout" />}
         style={styles.bar}

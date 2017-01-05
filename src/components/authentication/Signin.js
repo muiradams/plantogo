@@ -10,6 +10,9 @@ import * as actions from '../../actions';
 const emailRequired = value => value == null ? 'Email Required' : undefined;
 const emailFormat = value => value &&
   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid Email' : undefined;
+const usernameRequired = value => value == null ? 'Username Required' : undefined;
+const usernameFormat = value => value &&
+    !/^[A-Z0-9]+$/i.test(value) ? 'Must contain only letters and numbers' : undefined;
 const passwordRequired = value => value == null ? 'Password Required' : undefined;
 const passwordLength = value => value &&
   !/[A-Z0-9]{8,}/i.test(value) ? 'Must contain at least 8 characters' : undefined;
@@ -20,6 +23,11 @@ class Signin extends Component {
   constructor(props) {
     super(props);
     this.state = { isSignUp: false, };
+    this.style = {
+      error: {
+        float: "left"
+      }
+    }
   }
 
   handleTouchTap() {
@@ -36,11 +44,11 @@ class Signin extends Component {
     }
   }
 
-  handleFormSubmit({ email, password }) {
+  handleFormSubmit({ email, username, password }) {
     if(this.state.isSignUp) {
-      this.props.signupUser({ email, password });
+      this.props.signupUser({ email, username, password });
     } else {
-      this.props.signinUser({ email, password });
+      this.props.signinUser({ username, password });
     }
 
   }
@@ -48,6 +56,24 @@ class Signin extends Component {
   renderAlert() {
     if (this.props.errorMessage) {
       return <div className="error-alert">{this.props.errorMessage}</div>;
+    }
+  }
+
+  renderEmailInput() {
+    if(this.state.isSignUp) {
+      return (
+        <div>
+          <Field component={TextField}
+            name="email"
+            hintText="Email"
+            validate={[emailRequired, emailFormat]}
+            errorStyle={this.style.error}
+            className="text-field"
+            onClick={() => this.clearErrorMessage()}
+          />
+          <br />
+        </div>
+      );
     }
   }
 
@@ -93,28 +119,25 @@ class Signin extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    const style = {
-      error: {
-        float: "left"
-      }
-    }
 
     return(
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+        {this.renderEmailInput()}
         <Field component={TextField}
-          name="email"
-          hintText="Email"
-          validate={[emailRequired, emailFormat]}
-          errorStyle={style.error}
+          name="username"
+          hintText="Username"
+          validate={[usernameRequired, usernameFormat]}
+          errorStyle={this.style.error}
           className="text-field"
           onClick={() => this.clearErrorMessage()}
-          /><br />
+        />
+        <br />
         <Field component={TextField}
           name="password"
           hintText="Password"
           type="password"
           validate={[passwordRequired, passwordLength, passwordCharacters]}
-          errorStyle={style.error}
+          errorStyle={this.style.error}
           className="text-field"
           onClick={() => this.clearErrorMessage()}
           />

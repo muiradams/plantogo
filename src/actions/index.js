@@ -24,27 +24,27 @@ export function clearError() {
   return { type: CLEAR_ERROR, };
 }
 
-export function signinUser({ email, password }) {
+export function signinUser({ username, password }) {
   return function(dispatch) {
-    axios.post(`${API_URL}/signin`, { email, password })
+    axios.post(`${API_URL}/signin`, { username, password })
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        browserHistory.push(`/user/${email}`);
+        browserHistory.push(`/user/${username}`);
       })
       .catch(() => {
-        dispatch(authError('Incorrect Email and Password'));
+        dispatch(authError('Incorrect Username or Password'));
       });
   };
 }
 
-export function signupUser({ email, password }) {
+export function signupUser({ email, username, password }) {
   return function(dispatch) {
-    axios.post(`${API_URL}/signup`, { email, password })
+    axios.post(`${API_URL}/signup`, { email, username, password })
       .then(response => {
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
-        browserHistory.push(`/user/${email}`);
+        browserHistory.push(`/user/${username}`);
       })
       .catch(error => dispatch(authError(error.response.data.error)));
   };

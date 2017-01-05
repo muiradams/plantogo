@@ -7,10 +7,10 @@ import reduxThunk from 'redux-thunk';
 
 import App from './components/App';
 import Welcome from './components/Welcome';
-import Signup from './components/authentication/Signup';
 import ShowUser from './components/ShowUser';
 import TripList from './components/TripList';
 import TripDetail from './components/TripDetail';
+import RequireAuthentication from './components/authentication/RequireAuthentication';
 import { AUTH_USER } from './actions/types';
 import reducers from './reducers';
 
@@ -28,10 +28,9 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={Welcome} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/user/:username" component={ShowUser}>
+          <Route path="/user/:username" component={RequireAuthentication(ShowUser)}>
             <IndexRoute component={TripList} />
-            <Route path="/user/:username/:tripid" component={TripDetail} />
+            <Route path="/user/:username/trip/:tripid" component={TripDetail} />
           </Route>
       </Route>
     </Router>

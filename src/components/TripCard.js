@@ -12,7 +12,7 @@ export default class TripCard extends Component {
 
   handleTouchTap() {
     // TODO: username in the path below needs to be replaced with the current user's username;
-    browserHistory.push(`/user/${this.username}/${this.trip.tripName}`);
+    browserHistory.push(`/user/${this.username}/trip/${this.trip.tripName}`);
    }
 
   render() {

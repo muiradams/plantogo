@@ -60,6 +60,11 @@ body {
   margin-top: 20px !important;
 }
 
+.error-alert {
+  color: red;
+  margin-bottom: -19px;
+}
+
 .not-registered {
   margin-top: 20px;
   color: #687486;

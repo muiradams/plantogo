@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import {
   AUTH_ERROR,
   AUTH_USER,
+  CLEAR_ERROR,
   CLEAR_MEASUREMENTS,
   FETCH_TRIP,
   FETCH_TRIPLIST,
@@ -19,16 +20,8 @@ export function authError(error) {
   };
 }
 
-export function signupUser({ email, password }) {
-  return function(dispatch) {
-    axios.post(`${API_URL}/signup`, { email, password })
-      .then(response => {
-        dispatch({ type: AUTH_USER });
-        localStorage.setItem('token', response.data.token);
-        browserHistory.push('/user/${email}');
-      })
-      .catch(error => dispatch(authError(error.response.data.error)));
-  };
+export function clearError() {
+  return { type: CLEAR_ERROR, };
 }
 
 export function signinUser({ email, password }) {
@@ -45,9 +38,21 @@ export function signinUser({ email, password }) {
   };
 }
 
+export function signupUser({ email, password }) {
+  return function(dispatch) {
+    axios.post(`${API_URL}/signup`, { email, password })
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        browserHistory.push(`/user/${email}`);
+      })
+      .catch(error => dispatch(authError(error.response.data.error)));
+  };
+}
+
 export function signoutUser() {
   localStorage.removeItem('token');
-  return { type: UNAUTH_USER };
+  return { type: UNAUTH_USER, };
 }
 
 // TODO: Replace fetchTripList() below this one once the API server is setup

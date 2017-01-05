@@ -24,7 +24,6 @@ class TripDetail extends Component {
     if (trip.tripActivities.length > 1) {
       const AddActivityIcons = trip.tripActivities.map((activity, index, activities) => {
         const measurements = this.props.measurements || [];
-        console.log("Measurements are: ", measurements);
         if (measurements[0]) {
           //Don't include an "add activity icon" if it's the last activity
           if (index !== activities.length - 1) {

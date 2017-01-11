@@ -145,9 +145,9 @@ TIMELINE DIVIDERS | DECORATIONS
 }
 
 .add-first-activity {
-	background: #E0E1DD;
+	background: #FFFFFF;
 	position: relative;
-	border: 1px solid #E0E1DD;
+	border: 1px solid #FFFFFF;
 	-webkit-transition: all 0.4s;
 	-moz-transition: all 0.4s;
 	transition: all 0.4s;
@@ -168,16 +168,16 @@ TIMELINE DIVIDERS | DECORATIONS
 	content: "";
 	display: block;
 	border: 15px solid transparent;
-	border-bottom-color: #E0E1DD;
+	border-bottom-color: #FFFFFF;
 	position: absolute;
 	right: 37%;
 	top: -30px;
 }
 
 .add-first-trip {
-	background: #E0E1DD;
+	background: #FFFFFF;
 	position: relative;
-	border: 1px solid #E0E1DD;
+	border: 1px solid #FFFFFF;
 	-webkit-transition: all 0.4s;
 	-moz-transition: all 0.4s;
 	transition: all 0.4s;
@@ -198,7 +198,7 @@ TIMELINE DIVIDERS | DECORATIONS
 	content: "";
 	display: block;
 	border: 15px solid transparent;
-	border-bottom-color: #E0E1DD;
+	border-bottom-color: #FFFFFF;
 	position: absolute;
 	right: 37%;
 	top: -30px;
@@ -663,13 +663,13 @@ TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
 	/* Muir */
 	.add-first-activity {
 		padding: 5px 5px 5px 5px;
-		margin: -55px 0px 0px 46px;
+		margin: 0px 0px 0px 46px;
 	}
 
 	.add-first-activity:before,
 	.add-first-activity:after {
 		border: 14px solid transparent;
-		border-right-color: #E0E1DD;
+		border-right-color: #FFFFFF;
 		right: 108px;
 		top: -1px;
 	}

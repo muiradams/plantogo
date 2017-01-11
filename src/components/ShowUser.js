@@ -3,7 +3,7 @@ import Header from './Header';
 
 export default class ShowUser extends Component {
   isRootRoute() {
-    if (!this.props.params.tripid) {
+    if (!this.props.params.tripId) {
       return true;
     }
 

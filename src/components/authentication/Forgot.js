@@ -38,7 +38,7 @@ class Forgot extends Component {
 
     return(
       <div>
-        <div className="not-registered">Recover your password:</div>
+        <div className="not-registered">Recover your username/password:</div>
         <br />
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <Field component={TextField}

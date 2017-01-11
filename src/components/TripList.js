@@ -11,7 +11,7 @@ class TripList extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchTripList();
+    this.props.fetchTripList(this.username);
   }
 
   renderTripList(trips) {

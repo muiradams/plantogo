@@ -31,7 +31,7 @@ class Signin extends Component {
     }
   }
 
-  handleFormSubmit({ email, username, password }) {
+  handleFormSubmit({ username, password }) {
     this.props.signinUser({ username, password });
   }
 

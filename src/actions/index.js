@@ -80,20 +80,52 @@ export function resetPassword({ password }, token) {
   };
 }
 
-// TODO: Replace fetchTripList() below this one once the API server is setup
-// export function fetchTripList(username) {
-//   return function(dispatch) {
-//     axios.get(`${API_URL}/user/${username}`, {
-//       headers: { authorization: localStorage.getItem('token')}
-//     })
-//     .then(response => {
-//       dispatch({
-//         type: FETCH_TRIPLIST,
-//         payload: response.data.allTrips,
-//       });
-//     });
-//   }
-// }
+export function fetchTripList(username) {
+  return function(dispatch) {
+    axios.get(`${API_URL}/user/${username}`, {
+      headers: { Authorization: localStorage.getItem('token')}
+    })
+    .then(response => {
+      dispatch({
+        type: FETCH_TRIPLIST,
+        payload: response.data,
+      });
+    });
+  }
+}
+
+export function fetchTrip(username, tripId) {
+  return function(dispatch) {
+    axios.get(`${API_URL}/user/${username}/trip/${tripId}`, {
+      headers: { Authorization: localStorage.getItem('token')}
+    })
+    .then(response => {
+      dispatch({
+        type: FETCH_TRIP,
+        payload: response.data,
+      });
+    });
+  }
+}
+
+export function clearMeasurements() {
+  return {
+    type: CLEAR_MEASUREMENTS,
+    payload: [],
+  }
+}
+
+export function saveMeasurements(top, index) {
+  const measurement = {
+    index,
+    top,
+  };
+
+  return {
+    type: SAVE_MEASUREMENTS,
+    payload: measurement,
+  }
+}
 
 // TODO: Remove this test data once the API server is setup
 //using the ES Intl.DateTimeFormat object
@@ -144,40 +176,3 @@ const trips = [
     tripDate: date3,
   }
 ];
-
-// TODO: Replace with one that accesses the API
-export function fetchTrip(key) {
-  const trip = trips[key];
-  return {
-    type: FETCH_TRIP,
-    payload: trip,
-  };
-}
-
-// TODO: Replace this one with fetchTripList() above once the API is setup
-export function fetchTripList() {
-  const allTrips = trips;
-  return {
-    type: FETCH_TRIPLIST,
-    payload: allTrips,
-  };
-}
-
-export function clearMeasurements() {
-  return {
-    type: CLEAR_MEASUREMENTS,
-    payload: [],
-  }
-}
-
-export function saveMeasurements(top, index) {
-  const measurement = {
-    index,
-    top,
-  };
-
-  return {
-    type: SAVE_MEASUREMENTS,
-    payload: measurement,
-  }
-}

@@ -101,6 +101,13 @@ a:hover {
   text-align: right;
 }
 
+.form-container {
+  padding: 10px 20px 20px;
+  margin: 20px auto 0px;
+  display: table;
+  text-align: center;
+}
+
 /* @responsive styling
 ----------------------------------------------- */
 @media (max-width: 860px) {

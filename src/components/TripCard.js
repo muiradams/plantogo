@@ -11,8 +11,7 @@ export default class TripCard extends Component {
   }
 
   handleTouchTap() {
-    // TODO: username in the path below needs to be replaced with the current user's username;
-    browserHistory.push(`/user/${this.username}/trip/${this.trip.tripName}`);
+    browserHistory.push(`/user/${this.username}/trip/${this.trip._id}`);
    }
 
   render() {
@@ -29,12 +28,22 @@ export default class TripCard extends Component {
       },
     };
 
-    const tripDate = new Intl.DateTimeFormat('en-US', dateDisplayOptions).format(this.trip.tripDate);
+    let formattedTripDate = "May 10, 2017";
+
+    // TODO: Figure out how to deserialize the date, once I have started
+    // creating activities that have a date.
+    // if (this.trip.activities.length > 0) {
+    //   const tripDate = this.trip.activities[0].startTime;
+      // Something to deserialize the date string returned from the API
+      // formattedTripDate = new Intl.DateTimeFormat('en-US', dateDisplayOptions).format(tripDate);
+      // OR?
+      //formattedTripDate = tripDate.toLocaleTimeString("en-us", dateDisplayOptions);
+    // }
 
     return (
       <Card className="trip-card">
         <CardTitle title={this.trip.tripName}
-          subtitle={tripDate}
+          subtitle={formattedTripDate}
           style={styles.title}
           titleColor="#3F51B5"
           subtitleColor="#687486"

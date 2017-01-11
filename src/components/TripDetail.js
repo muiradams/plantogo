@@ -6,14 +6,26 @@ import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
 
 class TripDetail extends Component {
   componentWillMount() {
-    this.props.fetchTrip(0);
+    const username = this.props.params.username;
+    const tripId = this.props.params.tripId;
+
+    this.props.fetchTrip(username, tripId);
   }
 
   renderActivities(trip) {
-    if (trip.tripActivities.length > 0) {
+    const username = this.props.params.username;
+    const tripId = this.props.params.tripId;
+
+    if (trip.length > 0) {
 //      this.props.clearMeasurements();
-      const activities = trip.tripActivities.map((activity, index, activities) => {
-        return <TripActivity key={index} activity={activity} index={index} />;
+      const activities = trip.map((activity, index, activities) => {
+        return <TripActivity key={index}
+                             activity={activity}
+                             index={index}
+                             username={username}
+                             tripId={tripId}
+                             activityId={activity._id}
+               />;
       });
 
       return activities;
@@ -21,8 +33,8 @@ class TripDetail extends Component {
   }
 
   renderAddActivityIcons(trip) {
-    if (trip.tripActivities.length > 1) {
-      const AddActivityIcons = trip.tripActivities.map((activity, index, activities) => {
+    if (trip.length > 1) {
+      const AddActivityIcons = trip.map((activity, index, activities) => {
         const measurements = this.props.measurements || [];
         if (measurements[0]) {
           //Don't include an "add activity icon" if it's the last activity
@@ -37,7 +49,7 @@ class TripDetail extends Component {
 
             return (
               <div className="add-activity-icon" style={style} key={index}>
-              <AddIcon className="activity-icon" />
+                <AddIcon className="activity-icon" />
               </div>
             );
           }

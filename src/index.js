@@ -7,6 +7,10 @@ import reduxThunk from 'redux-thunk';
 
 import App from './components/App';
 import Welcome from './components/Welcome';
+import Signin from './components/authentication/Signin';
+import Signup from './components/authentication/Signup';
+import Forgot from './components/authentication/Forgot';
+import Reset from './components/authentication/Reset';
 import ShowUser from './components/ShowUser';
 import TripList from './components/TripList';
 import TripDetail from './components/TripDetail';
@@ -26,12 +30,17 @@ if (token) {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <IndexRoute component={Welcome} />
-          <Route path="/user/:username" component={RequireAuthentication(ShowUser)}>
-            <IndexRoute component={TripList} />
-            <Route path="/user/:username/trip/:tripid" component={TripDetail} />
-          </Route>
+      <Route component={App}>
+        <Route path="/" component={Welcome}>
+          <IndexRoute component={Signin} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/forgot" component={Forgot} />
+          <Route path="/reset/:token" component={Reset} />
+        </Route>
+        <Route path="/user/:username" component={RequireAuthentication(ShowUser)}>
+          <IndexRoute component={TripList} />
+          <Route path="/user/:username/trip/:tripid" component={TripDetail} />
+        </Route>
       </Route>
     </Router>
   </Provider>

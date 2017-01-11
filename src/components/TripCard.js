@@ -27,16 +27,12 @@ export default class TripCard extends Component {
         cursor: 'pointer',
         textAlign: 'center',
       },
-      card: {
-        margin: '0 20px 20px 20px',
-        background: '#FFFFFF',
-      },
     };
 
     const tripDate = new Intl.DateTimeFormat('en-US', dateDisplayOptions).format(this.trip.tripDate);
 
     return (
-      <Card style={styles.card}>
+      <Card className="trip-card">
         <CardTitle title={this.trip.tripName}
           subtitle={tripDate}
           style={styles.title}

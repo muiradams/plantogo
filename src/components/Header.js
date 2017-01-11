@@ -1,20 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { signoutUser } from '../actions';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import NavigationBack from 'material-ui/svg-icons/navigation/chevron-left';
 import FlatButton from 'material-ui/FlatButton';
 
 class Header extends Component {
   handleTouchTap() {
-    alert('onTouchTap triggered on the title component');
+    browserHistory.push('/');
   }
 
   handleLogOut() {
     this.props.signoutUser();
     browserHistory.push('/');
+  }
+
+  showLeftButton() {
+    if (this.props.isRootRoute) {
+      // TODO: Show a drawer on the left with a link to settings like changing password
+      return;
+    }
+
+    return (
+      <IconButton onClick={browserHistory.goBack}><NavigationBack /></IconButton>
+    );
   }
 
   render() {
@@ -23,8 +34,8 @@ class Header extends Component {
         cursor: 'pointer',
         position: 'relative',
         left: '15px',
-        fontFamily: '"Roboto", Arial, Helvetica, sans-serif',
-        fontWeight: 100,
+        fontFamily: '"Jaldi", sans-serif',
+        fontWeight: 400,
       },
       bar: {
         background: '#303F9F',
@@ -34,8 +45,8 @@ class Header extends Component {
 
     return(
       <AppBar
-        title={<span style={styles.title}>plan to go</span>}
-        onTitleTouchTap={this.handleTouchTap}
+        title={<span style={styles.title}>PlanToGo</span>}
+        iconElementLeft={this.showLeftButton()}
         iconElementRight={
           <FlatButton onClick={this.handleLogOut.bind(this)} label="Logout" />
         }

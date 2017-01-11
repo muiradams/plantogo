@@ -7,6 +7,9 @@ import { TextField } from 'redux-form-material-ui';
 import * as actions from '../../actions';
 
 // Validation functions for redux-form
+const emailRequired = value => value == null ? 'Email Required' : undefined;
+const emailFormat = value => value &&
+  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid Email' : undefined;
 const usernameRequired = value => value == null ? 'Username Required' : undefined;
 const usernameFormat = value => value &&
     !/^[A-Z0-9]+$/i.test(value) ? 'Must contain only letters and numbers' : undefined;
@@ -16,13 +19,9 @@ const passwordLength = value => value &&
 const passwordCharacters = value => value &&
   !/^[A-Z0-9]{8,}$/i.test(value) ? 'Must contain only letters and numbers' : undefined;
 
-class Signin extends Component {
-  handleSignup() {
-    browserHistory.push('/signup');
-  }
-
-  handleForgotPassword() {
-    browserHistory.push('/forgot');
+class Signup extends Component {
+  handleTouchTap() {
+    browserHistory.push('/');
   }
 
   clearErrorMessage() {
@@ -32,7 +31,7 @@ class Signin extends Component {
   }
 
   handleFormSubmit({ email, username, password }) {
-    this.props.signinUser({ username, password });
+    this.props.signupUser({ email, username, password });
   }
 
   renderAlert() {
@@ -51,6 +50,15 @@ class Signin extends Component {
 
     return(
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+        <Field component={TextField}
+          name="email"
+          hintText="Email"
+          validate={[emailRequired, emailFormat]}
+          errorStyle={style.error}
+          className="text-field"
+          onClick={() => this.clearErrorMessage()}
+        />
+        <br />
         <Field component={TextField}
           name="username"
           hintText="Username"
@@ -75,20 +83,12 @@ class Signin extends Component {
               disabled={pristine || !valid || submitting}
               className="submit-button"
               >
-              SIGN IN
+              SIGN UP
             </FlatButton>
         </div>
         <div className="not-registered">
-          <a className="sign-up-link"
-            onClick={this.handleSignup}
-            style={{cursor: "pointer"}}
-          >Not registered? Sign up!</a>
-          <br />
-          <br />
-          <a className="sign-up-link"
-            onClick={this.handleForgotPassword}
-            style={{cursor: "pointer"}}
-          >Forgot username/password?</a>
+          <span>Already have an account? </span>
+          <a className="sign-up-link" onClick={this.handleTouchTap.bind(this)} style={{cursor: "pointer"}}>Sign In</a>
         </div>
       </form>
     );
@@ -99,8 +99,8 @@ function mapStateToProps(state) {
   return { errorMessage: state.auth.error };
 }
 
-const signInForm = reduxForm({
-  form: 'signin',
-})(Signin);
+const signupForm = reduxForm({
+  form: 'signup',
+})(Signup);
 
-export default connect(mapStateToProps, actions)(signInForm);
+export default connect(mapStateToProps, actions)(signupForm);

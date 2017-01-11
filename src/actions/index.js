@@ -55,6 +55,31 @@ export function signoutUser() {
   return { type: UNAUTH_USER, };
 }
 
+export function forgotPassword({ email }) {
+  return function(dispatch) {
+    axios.post(`${API_URL}/forgot`, { email })
+      .then(response => {
+        dispatch(authError('Check Your Inbox'));
+      })
+      .catch(() => {
+        dispatch(authError('Incorrect Email'));
+      });
+  };
+}
+
+export function resetPassword({ password }, token) {
+  return function(dispatch) {
+    axios.post(`${API_URL}/reset/${token}`, { password })
+      .then(response => {
+        dispatch(authError('Your Password Has Been Changed'));
+        browserHistory.push('/');
+      })
+      .catch(() => {
+        dispatch(authError('This link is invalid or has expired'));
+      });
+  };
+}
+
 // TODO: Replace fetchTripList() below this one once the API server is setup
 // export function fetchTripList(username) {
 //   return function(dispatch) {

@@ -8,9 +8,9 @@ import { TextField } from 'redux-form-material-ui';
 import * as actions from '../actions';
 
 // Validation functions for redux-form
-const activityNameRequired = value => value == null ? 'Activity Name Required' : undefined;
-const activityTypeRequired = value => value == null ? 'Activity Type Required' : undefined;
-const startTimeRequired = value => value == null ? 'Start Time Required' : undefined;
+const activityNameRequired = value => value === "" ? 'Activity Name Required' : undefined;
+const activityTypeRequired = value => value === "" ? 'Activity Type Required' : undefined;
+const startTimeRequired = value => value === "" ? 'Start Time Required' : undefined;
 
 class UpdateActivity extends Component {
   handleCancel() {
@@ -34,7 +34,10 @@ class UpdateActivity extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, submitting, valid } = this.props;
+    const activity = this.props.activity;
+    const { handleSubmit, submitting, valid } = this.props;
+    console.log("Submitting is: ", submitting);
+    console.log("Valid is: ", valid);
     const style = {
       error: {
         float: "left"
@@ -47,6 +50,7 @@ class UpdateActivity extends Component {
           <Field component={TextField}
             name="activityName"
             hintText="Activity Name"
+            value="Default Value"
             validate={[activityNameRequired]}
             errorStyle={style.error}
             className="text-field"
@@ -73,7 +77,7 @@ class UpdateActivity extends Component {
           {this.renderAlert()}
           <div><FlatButton
                 type="submit"
-                disabled={pristine || !valid || submitting}
+                disabled={ !valid || submitting}
                 className="submit-button"
                 >
                 SAVE
@@ -92,7 +96,11 @@ class UpdateActivity extends Component {
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.auth.error };
+  return {
+    activity: state.trips.activity,
+    errorMessage: state.auth.error,
+    initialValues: state.trips.activity,
+  };
 }
 
 const updateActivityForm = reduxForm({

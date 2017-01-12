@@ -2,21 +2,27 @@ import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import Measure from 'react-measure';
-import { saveMeasurements } from '../actions/';
+import * as actions from '../actions/';
 import FlightIcon from 'material-ui/svg-icons/maps/flight';
 import CarIcon from 'material-ui/svg-icons/maps/directions-car';
 import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
 
 class TripActivity extends Component {
+  constructor(props) {
+    super(props);
+
+    this.activity = this.props.activity;
+  }
+
   handleDelete() {
     // TODO
   }
 
   handleEditActivity() {
     const username = this.props.username;
-    const tripId = this.props.tripId;
-    const activityId = this.props.activityId;
-
+    const tripId = this.props.trip._id;
+    const activityId = this.activity._id;
+    this.props.setActivity(this.activity);
     browserHistory.push(`/user/${username}/trip/${tripId}/activity/${activityId}`);
   }
 
@@ -29,10 +35,9 @@ class TripActivity extends Component {
   }
 
   render() {
-    const activity = this.props.activity;
+    const activity = this.activity;
     const index = this.props.index;
-    console.log(activity);
-    console.log(this.props);
+
     return (
       <div className="timeline-post grey-post">
         <div className="timeline-meta activity-time">
@@ -69,4 +74,10 @@ TripActivity.contextTypes = {
   router: PropTypes.object,
 };
 
-export default connect(null, { saveMeasurements })(TripActivity);
+function mapStateToProps(state) {
+  return {
+    trip: state.trips.trip,
+  }
+}
+
+export default connect(mapStateToProps, actions)(TripActivity);

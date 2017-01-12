@@ -16,15 +16,12 @@ class TripDetail extends Component {
     const username = this.props.params.username;
     const tripId = this.props.params.tripId;
 
-    if (trip.length > 0) {
-//      this.props.clearMeasurements();
-      const activities = trip.map((activity, index, activities) => {
+    if (trip.activities.length > 0) {
+      const activities = trip.activities.map((activity, index, activities) => {
         return <TripActivity key={index}
                              activity={activity}
                              index={index}
                              username={username}
-                             tripId={tripId}
-                             activityId={activity._id}
                />;
       });
 
@@ -33,8 +30,8 @@ class TripDetail extends Component {
   }
 
   renderAddActivityIcons(trip) {
-    if (trip.length > 1) {
-      const AddActivityIcons = trip.map((activity, index, activities) => {
+    if (trip.activities.length > 1) {
+      const AddActivityIcons = trip.activities.map((activity, index, activities) => {
         const measurements = this.props.measurements || [];
         if (measurements[0]) {
           //Don't include an "add activity icon" if it's the last activity
@@ -61,38 +58,41 @@ class TripDetail extends Component {
   }
 
   render() {
-    const trip = this.props.trip || [];
+    const trip = this.props.trip;
 
-    // If no activities have been created for this trip
-    if (trip.length === 0) {
+    if (trip) {
+      // If no activities have been created for this trip
+      if (trip.activities.length === 0) {
+        return (
+          <div className="jazz-timeline-wrapper">
+            <div className="jazz-timeline solid-shadow">
+              <div className="add-activity-icon">
+                <AddIcon className="activity-icon" />
+              </div>
+            </div>
+            <div className="add-first-activity">Add an Activity</div>
+          </div>
+        );
+      }
+
       return (
         <div className="jazz-timeline-wrapper">
           <div className="jazz-timeline solid-shadow">
             <div className="add-activity-icon">
               <AddIcon className="activity-icon" />
             </div>
+            {this.renderActivities(trip)}
+            <div className="add-activity-icon">
+              <AddIcon className="activity-icon" />
+            </div>
+              {this.renderAddActivityIcons(trip)}
           </div>
-          <div className="add-first-activity">Add an Activity</div>
         </div>
       );
     }
 
-    return (
-      <div className="jazz-timeline-wrapper">
-        <div className="jazz-timeline solid-shadow">
-          <div className="add-activity-icon">
-            <AddIcon className="activity-icon" />
-          </div>
-          {this.renderActivities(trip)}
-          <div className="add-activity-icon">
-            <AddIcon className="activity-icon" />
-          </div>
-          {/* <div className="add-activity-icon-wrapper"> */}
-            {this.renderAddActivityIcons(trip)}
-          {/* </div> */}
-        </div>
-      </div>
-    );
+    // No trip exists to render
+    return null;
   }
 }
 

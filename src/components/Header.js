@@ -28,6 +28,22 @@ class Header extends Component {
     );
   }
 
+  showTitle() {
+    if (this.props.isRootRoute) {
+      return 'PlanToGo';
+    }
+
+    if (this.props.activity) {
+      return this.props.activity.activityName;
+    }
+
+    if(this.props.trip) {
+      return this.props.trip.tripName;
+    }
+
+    return 'PlanToGo';
+  }
+
   render() {
     const styles = {
       title: {
@@ -45,7 +61,7 @@ class Header extends Component {
 
     return(
       <AppBar
-        title={<span style={styles.title}>PlanToGo</span>}
+        title={<span style={styles.title}>{this.showTitle()}</span>}
         iconElementLeft={this.showLeftButton()}
         iconElementRight={
           <FlatButton onClick={this.handleLogOut.bind(this)} label="Logout" />
@@ -56,4 +72,11 @@ class Header extends Component {
   }
 }
 
-export default connect(null, { signoutUser })(Header);
+function mapStateToProps(state) {
+  return {
+    trip: state.trips.trip,
+    activity: state.trips.activity,
+  };
+}
+
+export default connect(mapStateToProps, { signoutUser })(Header);

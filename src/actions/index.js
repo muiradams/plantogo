@@ -8,6 +8,7 @@ import {
   FETCH_TRIP,
   FETCH_TRIPLIST,
   SAVE_MEASUREMENTS,
+  SET_ACTIVITY,
   UNAUTH_USER,
 } from './types';
 
@@ -105,6 +106,13 @@ export function fetchTrip(username, tripId) {
         payload: response.data,
       });
     });
+  }
+}
+
+export function setActivity(activity) {
+  return {
+    type: SET_ACTIVITY,
+    payload: activity,
   }
 }
 

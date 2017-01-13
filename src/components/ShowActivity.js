@@ -8,11 +8,18 @@ import { TextField } from 'redux-form-material-ui';
 import * as actions from '../actions';
 
 // Validation functions for redux-form
-const activityNameRequired = value => value === "" ? 'Activity Name Required' : undefined;
-const activityTypeRequired = value => value === "" ? 'Activity Type Required' : undefined;
-const startTimeRequired = value => value === "" ? 'Start Time Required' : undefined;
+const activityNameRequired = value => value == null ? 'Activity Name Required' : undefined;
+const activityTypeRequired = value => value == null ? 'Activity Type Required' : undefined;
+const startTimeRequired = value => value == null ? 'Start Time Required' : undefined;
 
-class UpdateActivity extends Component {
+class ShowActivity extends Component {
+  componentDidMount() {
+    const { username, tripId, activityId } = this.props.params;
+    if(activityId) {
+      this.props.fetchActivity(username, tripId, activityId);
+    }
+  }
+
   handleCancel() {
     browserHistory.goBack();
   }
@@ -23,8 +30,14 @@ class UpdateActivity extends Component {
     }
   }
 
-  handleFormSubmit({ activityName, activityType, startTime }) {
-    this.props.updateActivity({ activityName, activityType, startTime });
+  handleFormSubmit(formData) {
+    const { username, tripId, activityId } = this.props.params;
+
+    if (activityId) {
+      this.props.updateActivity(username, tripId, formData);
+    } else {
+      this.props.createActivity(username, tripId, formData);
+    }
   }
 
   renderAlert() {
@@ -36,8 +49,6 @@ class UpdateActivity extends Component {
   render() {
     const activity = this.props.activity;
     const { handleSubmit, submitting, valid } = this.props;
-    console.log("Submitting is: ", submitting);
-    console.log("Valid is: ", valid);
     const style = {
       error: {
         float: "left"
@@ -84,7 +95,7 @@ class UpdateActivity extends Component {
               </FlatButton>
               <FlatButton
                 className="submit-button"
-                onClick={this.handleCancel}
+                onClick={() => this.handleCancel()}
                 >
                 CANCEL
               </FlatButton>
@@ -103,8 +114,8 @@ function mapStateToProps(state) {
   };
 }
 
-const updateActivityForm = reduxForm({
-  form: 'updateActivity',
-})(UpdateActivity);
+const showActivityForm = reduxForm({
+  form: 'showActivity',
+})(ShowActivity);
 
-export default connect(mapStateToProps, actions)(updateActivityForm);
+export default connect(mapStateToProps, actions)(showActivityForm);

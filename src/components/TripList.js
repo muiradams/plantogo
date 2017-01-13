@@ -10,7 +10,7 @@ class TripList extends Component {
     this.username = props.params.username;
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchTripList(this.username);
   }
 

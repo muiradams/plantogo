@@ -80,6 +80,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.under-the-header {
+  padding-top: 65px;
+}
+
 .newTripIcon {
   position: relative;
   top: 6px;

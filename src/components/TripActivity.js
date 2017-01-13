@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+import React, { Component } from 'react';
+import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Measure from 'react-measure';
 import * as actions from '../actions/';
@@ -19,10 +19,8 @@ class TripActivity extends Component {
   }
 
   handleEditActivity() {
-    const username = this.props.username;
-    const tripId = this.props.trip._id;
+    const { username, tripId } = this.props.params;
     const activityId = this.activity._id;
-    this.props.setActivity(this.activity);
     browserHistory.push(`/user/${username}/trip/${tripId}/activity/${activityId}`);
   }
 
@@ -70,14 +68,10 @@ class TripActivity extends Component {
   }
 }
 
-TripActivity.contextTypes = {
-  router: PropTypes.object,
-};
-
 function mapStateToProps(state) {
   return {
     trip: state.trips.trip,
   }
 }
 
-export default connect(mapStateToProps, actions)(TripActivity);
+export default withRouter(connect(mapStateToProps, actions)(TripActivity));

@@ -5,20 +5,17 @@ import TripActivity from './TripActivity';
 import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
 
 class TripDetail extends Component {
-  componentWillMount() {
-    const username = this.props.params.username;
-    const tripId = this.props.params.tripId;
-
+  componentDidMount() {
+    const { username, tripId } = this.props.params;
     this.props.fetchTrip(username, tripId);
   }
 
   renderActivities(trip) {
-    const username = this.props.params.username;
-    const tripId = this.props.params.tripId;
+    const { username, tripId } = this.props.params;
 
     if (trip.activities.length > 0) {
       const activities = trip.activities.map((activity, index, activities) => {
-        return <TripActivity key={index}
+        return <TripActivity key={activity._id}
                              activity={activity}
                              index={index}
                              username={username}

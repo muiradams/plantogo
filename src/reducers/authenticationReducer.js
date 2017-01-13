@@ -12,7 +12,7 @@ export default function(state = {}, action) {
     case AUTH_USER:
       return { ...state, authenticated: true, error: '', };
     case CLEAR_ERROR:
-      return { ...state, error: '', }
+      return { ...state, error: '', };
     case UNAUTH_USER:
       return { ...state, authenticated: false, };
   }

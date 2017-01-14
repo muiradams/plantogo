@@ -36,17 +36,34 @@ class Header extends Component {
   }
 
   showTitle() {
-    const { tripId, activityId } = this.props.params;
+    const { tripId: pathContainsTripId, activityId: pathContainsActivityId } = this.props.params;
+    const { trip, activity } = this.props;
+    const pathname = this.props.location.pathname;
+    const containsActivity = new RegExp("activity");
+    const containsTrip = new RegExp("trip");
 
-    if (this.props.activity && activityId) {
-      return this.props.activity.activityName;
+    // Creating an activity
+    if (!pathContainsActivityId && containsActivity.test(pathname)) {
+      return 'Create A New Activity';
     }
 
-    if (this.props.trip && tripId) {
-      return this.props.trip.tripName;
+    // Updating an activity
+    if (pathContainsActivityId && activity) {
+      return activity.activityName;
     }
 
-    if (!tripId && !activityId) {
+    // Creating a trip
+    if (!pathContainsTripId && containsTrip.test(pathname)) {
+      return 'Create A New Trip';
+    }
+
+    // Viewing a trip
+    if (pathContainsTripId && trip) {
+      return trip.tripName;
+    }
+
+    // Showing all trips
+    if (!pathContainsTripId && !pathContainsActivityId) {
       return 'PlanToGo';
     }
   }

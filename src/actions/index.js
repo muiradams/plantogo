@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import moment from 'moment';
 import {
   AUTH_ERROR,
   AUTH_USER,
   CLEAR_ERROR,
   CLEAR_MEASUREMENTS,
+  DELETE_ACTIVITY,
+  DELETE_TRIP,
   FETCH_ACTIVITY,
   FETCH_TRIP,
   FETCH_TRIPLIST,
@@ -33,8 +36,9 @@ export function signinUser({ username, password }) {
         localStorage.setItem('token', response.data.token);
         browserHistory.push(`/user/${username}`);
       })
-      .catch(() => {
-        dispatch(authError('Incorrect Username or Password'));
+      .catch(error => {
+        dispatch(authError('Incorrect username or password'));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
   };
 }
@@ -47,7 +51,10 @@ export function signupUser({ email, username, password }) {
         localStorage.setItem('token', response.data.token);
         browserHistory.push(`/user/${username}`);
       })
-      .catch(error => dispatch(authError(error.response.data.error)));
+      .catch(error => {
+        dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
+      });
   };
 }
 
@@ -59,11 +66,10 @@ export function signoutUser() {
 export function forgotPassword({ email }) {
   return function(dispatch) {
     axios.post(`${API_URL}/forgot`, { email })
-      .then(response => {
-        dispatch(authError('Check Your Inbox'));
-      })
-      .catch(() => {
-        dispatch(authError('Incorrect Email'));
+      .then(response => dispatch(authError(response.data.message)))
+      .catch(error => {
+        dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
   };
 }
@@ -72,12 +78,11 @@ export function resetPassword({ password }, token) {
   return function(dispatch) {
     axios.post(`${API_URL}/reset/${token}`, { password })
       .then(response => {
-        dispatch(authError('Your Password Has Been Changed'));
+        dispatch(authError(response.data.message));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
         browserHistory.push('/');
       })
-      .catch(() => {
-        dispatch(authError('This link is invalid or has expired'));
-      });
+      .catch(error => dispatch(authError(error.response.data.error)));
   };
 }
 
@@ -92,6 +97,10 @@ export function fetchTripList(username) {
         type: FETCH_TRIPLIST,
         payload: response.data,
       });
+    })
+    .catch(error => {
+      dispatch(authError(error.response.data.error));
+      setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
     });
   }
 }
@@ -102,13 +111,45 @@ export function fetchTrip(username, tripId) {
       headers: { Authorization: localStorage.getItem('token')}
     })
     .then(response => {
-      // TODO: sort the activities by startTime before sending them on
+      // Sort the activities by start day/time before sending them on
+      const fetchedActivities = response.data.activities;
+      const mappedActivities = fetchedActivities.map(function(activity, index) {
+        const start = moment(activity.start);
+        return { index, start };
+      });
+
+      mappedActivities.sort(function(a, b) {
+        return +(b.start.isBefore(a.start)) || +(a.start.isSame(b.start)) - 1;
+      });
+
+      const activities = mappedActivities.map(function(activity) {
+        return fetchedActivities[activity.index];
+      });
+
       dispatch({
         type: FETCH_TRIP,
-        payload: response.data,
+        payload: { ...response.data, activities },
       });
+    })
+    .catch(error => {
+      dispatch(authError(error.response.data.error));
+      setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
     });
   }
+}
+
+export function deleteTrip(username, tripId) {
+  return function(dispatch) {
+    axios.delete(`${API_URL}/user/${username}/trip/${tripId}`,
+      { headers: { Authorization: localStorage.getItem('token') }})
+      .then(response => {
+        browserHistory.push(`/user/${username}`);
+      })
+      .catch(() => {
+        dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
+      });
+  };
 }
 
 export function fetchActivity(username, tripId, activityId) {
@@ -117,10 +158,24 @@ export function fetchActivity(username, tripId, activityId) {
       headers: { Authorization: localStorage.getItem('token')}
     })
     .then(response => {
+      const startISOString = response.data.start;
+      const endISOString = response.data.end;
+      const start = moment(startISOString);
+      const end = moment(endISOString);
+      const startDate = start.clone().toDate();
+      const startTime = start.clone().toDate();
+      const endDate = end.clone().toDate();
+      const endTime = end.clone().toDate();
+      console.log("The updated activity: ", { ...response.data, startDate, startTime, endDate, endTime, });
       dispatch({
         type: FETCH_ACTIVITY,
-        payload: response.data,
+        payload: { ...response.data, startDate, startTime, endDate, endTime, },
       });
+    })
+    .catch(error => {
+      dispatch(authError(error.response.data.error));
+      setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
+      browserHistory.push('/');
     });
   }
 }
@@ -137,6 +192,7 @@ export function createActivity(username, tripId, activityData) {
       })
       .catch(() => {
         dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
   };
 }
@@ -153,6 +209,21 @@ export function updateActivity(username, tripId, activityData) {
       })
       .catch(() => {
         dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
+      });
+  };
+}
+
+export function deleteActivity(username, tripId, activityId) {
+  return function(dispatch) {
+    axios.delete(`${API_URL}/user/${username}/trip/${tripId}/activity/${activityId}`,
+      { headers: { Authorization: localStorage.getItem('token') }})
+      .then(response => {
+        browserHistory.push(`/user/${username}/trip/${tripId}`);
+      })
+      .catch(() => {
+        dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
   };
 }

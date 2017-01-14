@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Measure from 'react-measure';
+import moment from 'moment';
 import * as actions from '../actions/';
 import FlightIcon from 'material-ui/svg-icons/maps/flight';
 import CarIcon from 'material-ui/svg-icons/maps/directions-car';
@@ -15,7 +16,9 @@ class TripActivity extends Component {
   }
 
   handleDelete() {
-    // TODO
+    const { username, tripId } = this.props.params;
+    const activityId = this.activity._id;
+    this.props.deleteActivity(username, tripId, activityId);
   }
 
   handleEditActivity() {
@@ -35,11 +38,11 @@ class TripActivity extends Component {
   render() {
     const activity = this.activity;
     const index = this.props.index;
-
+    console.log(activity);
     return (
       <div className="timeline-post grey-post">
         <div className="timeline-meta activity-time">
-          <div className="meta-details">{activity.startTime}</div>
+          <div className="meta-details">{moment(activity.start).format("h:mm a")}</div>
         </div>
         <div className="timeline-icon icon-larger iconbg-indigo icon-color-white"
              onClick={this.handleEditActivity.bind(this)}>
@@ -61,7 +64,7 @@ class TripActivity extends Component {
           </div>
         </Measure>
         <div className="timeline-meta activity-time">
-          <div className="meta-details">{activity.endTime}</div>
+          <div className="meta-details">{activity.end ? moment(activity.end).format("h:mm a") : ""}</div>
         </div>
       </div>
     );

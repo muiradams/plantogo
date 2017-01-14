@@ -15,7 +15,7 @@ class TripList extends Component {
   }
 
   renderTripList(trips) {
-    return trips.map(trip => <TripCard trip={trip} username={this.username} key={trip.tripName} />);
+    return trips.map(trip => <TripCard trip={trip} key={trip._id} />);
   }
 
   render() {

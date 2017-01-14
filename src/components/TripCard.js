@@ -1,18 +1,27 @@
 import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { browserHistory, withRouter } from 'react-router';
+import { deleteTrip } from "../actions";
 import { Card, CardTitle } from 'material-ui/Card';
 import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
 
-export default class TripCard extends Component {
+class TripCard extends Component {
   constructor(props) {
     super(props);
     this.trip = props.trip;
-    this.username = props.username;
   }
 
   handleTouchTap() {
-    browserHistory.push(`/user/${this.username}/trip/${this.trip._id}`);
-   }
+    const username = this.props.params.username;
+    browserHistory.push(`/user/${username}/trip/${this.trip._id}`);
+  }
+
+  handleDelete() {
+    console.log("props.params: ", this.props.params);
+    const username = this.props.params.username;
+    const tripId = this.trip._id;
+    this.props.deleteTrip(username, tripId);
+  }
 
   render() {
     const dateDisplayOptions = {
@@ -28,18 +37,6 @@ export default class TripCard extends Component {
       },
     };
 
-    let formattedTripDate = "May 10, 2017";
-
-    // TODO: Figure out how to deserialize the date, once I have started
-    // creating activities that have a date.
-    // if (this.trip.activities.length > 0) {
-    //   const tripDate = this.trip.activities[0].startTime;
-      // Something to deserialize the date string returned from the API
-      // formattedTripDate = new Intl.DateTimeFormat('en-US', dateDisplayOptions).format(tripDate);
-      // OR?
-      //formattedTripDate = tripDate.toLocaleTimeString("en-us", dateDisplayOptions);
-    // }
-
     return (
       <Card className="trip-card">
         <CardTitle title={this.trip.tripName}
@@ -49,7 +46,7 @@ export default class TripCard extends Component {
           subtitleColor="#687486"
           onClick={this.handleTouchTap.bind(this)} >
           <div className="delete-trip-icon">
-            <AddIcon className="delete-icon" onClick={this.handleTouchTap.bind(this)} />
+            <AddIcon className="delete-icon" onClick={this.handleDelete.bind(this)} />
           </div>
         </CardTitle>
       </Card>
@@ -57,6 +54,4 @@ export default class TripCard extends Component {
   }
 }
 
-TripCard.contextTypes = {
-  router: PropTypes.object,
-};
+export default withRouter(connect(null, { deleteTrip })(TripCard));

@@ -286,20 +286,6 @@ TIMELINE DIVIDERS | DECORATIONS
 	transform: rotate(45deg);
 }
 
-.delete-activity-icon .delete-icon{
-	position: relative;
-  top: -2px;
-	left: -2px;
-  color: #3F51B5 !important;
-}
-
-.delete-trip-icon .delete-icon{
-	position: relative;
-  top: -2px;
-	left: -2px;
-  color: #3F51B5 !important;
-}
-
 /* large circular seperator | can have dates or icons
 ------------------------------------------------------------- */
 .jazz-timeline .timeline-post .timeline-icon {

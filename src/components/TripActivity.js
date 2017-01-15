@@ -15,12 +15,6 @@ class TripActivity extends Component {
     this.activity = this.props.activity;
   }
 
-  handleDelete() {
-    const { username, tripId } = this.props.params;
-    const activityId = this.activity._id;
-    this.props.deleteActivity(username, tripId, activityId);
-  }
-
   handleEditActivity() {
     const { username, tripId } = this.props.params;
     const activityId = this.activity._id;
@@ -38,7 +32,7 @@ class TripActivity extends Component {
   render() {
     const activity = this.activity;
     const index = this.props.index;
-    console.log(activity);
+
     return (
       <div className="timeline-post grey-post">
         <div className="timeline-meta activity-time">
@@ -54,9 +48,6 @@ class TripActivity extends Component {
             this.props.saveMeasurements(top, index);
         }}>
           <div className="timeline-content" onClick={this.handleEditActivity.bind(this)}>
-            <div className="delete-activity-icon">
-              <AddIcon className="delete-icon" onClick={this.handleDelete.bind(this)} />
-            </div>
             <h2 className="content-title">{activity.activityName}</h2>
             <div className="content-details">
               <p>{activity.notes}</p>

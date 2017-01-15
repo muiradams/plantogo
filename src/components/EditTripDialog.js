@@ -2,20 +2,20 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, withRouter } from 'react-router';
 import { Field, reduxForm } from 'redux-form';
-import { Card, CardTitle } from 'material-ui/Card';
-import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
+import IconButton from 'material-ui/IconButton';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { TextField } from 'redux-form-material-ui';
 import * as actions from '../actions/';
 
 // Validation functions for redux-form
-const required = value => value == null ? 'Required' : undefined;
+const required = value => value === '' ? 'Required' : undefined;
 
-class NewTripCard extends Component {
+class EditTripDialog extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: false, };
+    this.state = { open: false, deleteOpen: false };
   }
 
   renderAlert() {
@@ -38,9 +38,57 @@ class NewTripCard extends Component {
     this.setState({ open: false, });
   }
 
-  handleCreateNewTrip({ tripName }) {
-    const username = this.props.params.username;
-    this.props.createTrip(username, tripName);
+  handleDeleteOpen() {
+    this.setState({ deleteOpen: true, });
+  }
+
+  handleDeleteClose() {
+    this.setState({ deleteOpen: false, });
+  }
+
+  handleEditTrip({ tripName }) {
+    const { username, tripId } = this.props.params;
+    this.props.editTrip(username, tripId, tripName);
+  }
+
+  handleDeleteTrip() {
+    const { username, tripId } = this.props.params;
+    this.props.deleteTrip(username, tripId);
+  }
+
+  renderDeleteButton() {
+    const actions = [
+      <FlatButton
+        label="DELETE"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={() => this.handleDeleteTrip()}
+      />,
+      <FlatButton
+        label="CANCEL"
+        primary={true}
+        onTouchTap={() => this.handleDeleteClose()}
+      />,
+    ];
+
+    return (
+      <div>
+        <FlatButton
+          className="submit-button"
+          onClick={() => this.handleDeleteOpen()}
+          >
+          DELETE
+        </FlatButton>
+        <Dialog
+          actions={actions}
+          modal={false}
+          open={this.state.deleteOpen}
+          onRequestClose={() => this.handleDeleteClose()}
+        >
+          Are you sure you want to delete this trip?
+        </Dialog>
+      </div>
+    );
   }
 
   renderDialog() {
@@ -56,18 +104,17 @@ class NewTripCard extends Component {
 
     return (
       <Dialog
-        title="Create A New Trip"
+        title="Edit Trip"
         actions={null}
         modal={false}
         contentStyle={style.dialog}
         open={this.state.open}
         onRequestClose={() => this.handleClose()}
       >
-        <form onSubmit={handleSubmit(this.handleCreateNewTrip.bind(this))}>
+        <form onSubmit={handleSubmit(this.handleEditTrip.bind(this))}>
           <Field component={TextField}
             name="tripName"
             hintText="Trip Name"
-            value="Default Value"
             validate={[required]}
             errorStyle={style.error}
             className="text-field"
@@ -88,6 +135,7 @@ class NewTripCard extends Component {
               >
               CANCEL
             </FlatButton>
+            {this.renderDeleteButton()}
           </div>
         </form>
       </Dialog>
@@ -95,27 +143,13 @@ class NewTripCard extends Component {
   }
 
   render() {
-    if (this.props.numTrips === 0) {
-      return (
-        <div>
-          <div className="jazz-timeline-wrapper">
-              <div className="add-trip-icon">
-                <AddIcon className="trip-icon" onClick={() => this.handleOpen()} />
-              </div>
-            <div className="add-first-trip">Add a Trip</div>
-          </div>
-          {this.renderDialog()}
-        </div>
-      );
-    }
-
+    const tripName = this.props.trip.tripName;
     return (
-      <div>
-        <div className="jazz-timeline-wrapper">
-            <div className="add-trip-icon">
-              <AddIcon className="trip-icon" onClick={() => this.handleOpen()} />
-            </div>
-        </div>
+      <div style={{cursor: "pointer"}} onClick={() => this.handleOpen()}>
+        {tripName}
+        <IconButton>
+          <EditIcon className="edit-icon" />
+        </IconButton>
         {this.renderDialog()}
       </div>
     );
@@ -124,12 +158,14 @@ class NewTripCard extends Component {
 
 function mapStateToProps(state) {
   return {
+    trip: state.trips.trip,
     errorMessage: state.auth.error,
+    initialValues: { tripName: state.trips.trip.tripName },
   };
 }
 
-const newTripForm = reduxForm({
-  form: 'newTrip',
-})(NewTripCard);
+const editTripForm = reduxForm({
+  form: 'editTrip',
+})(EditTripDialog);
 
-export default withRouter(connect(mapStateToProps, actions)(newTripForm));
+export default withRouter(connect(mapStateToProps, actions)(editTripForm));

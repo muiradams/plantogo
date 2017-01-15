@@ -90,6 +90,10 @@ a:hover {
   color: #303F9F !important;
 }
 
+.dialog-buttons {
+  float: right;
+}
+
 .createNewTripLink {
   color: #303F9F;
 }
@@ -110,6 +114,15 @@ a:hover {
   margin: 20px auto 0px;
   display: table;
   text-align: center;
+}
+
+.edit-icon {
+  color: rgba(255, 255, 255, .35) !important;
+  width: 22px !important;
+  height: 22px !important;
+  position: absolute;
+  top: 17px;
+  left: 10px;
 }
 
 /* @responsive styling

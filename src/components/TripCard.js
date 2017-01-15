@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, withRouter } from 'react-router';
+import moment from 'moment';
 import { deleteTrip } from "../actions";
 import { Card, CardTitle } from 'material-ui/Card';
-import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
 
 class TripCard extends Component {
   constructor(props) {
@@ -16,19 +16,14 @@ class TripCard extends Component {
     browserHistory.push(`/user/${username}/trip/${this.trip._id}`);
   }
 
-  handleDelete() {
-    console.log("props.params: ", this.props.params);
-    const username = this.props.params.username;
-    const tripId = this.trip._id;
-    this.props.deleteTrip(username, tripId);
-  }
-
   render() {
-    const dateDisplayOptions = {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    };
+    const activities = this.trip.activities;
+    let startDate = '';
+    let endDate = '';
+    if (activities.length > 0) {
+      startDate = moment(activities[0].start).format("MMMM D, YYYY");
+      endDate = moment(activities[activities.length - 1].end).format("MMMM D, YYYY");
+    }
 
     const styles = {
       title: {
@@ -40,14 +35,12 @@ class TripCard extends Component {
     return (
       <Card className="trip-card">
         <CardTitle title={this.trip.tripName}
-          subtitle={formattedTripDate}
+          subtitle={startDate ? `${startDate} - ${endDate}` : '(No activities planned)'}
           style={styles.title}
           titleColor="#3F51B5"
           subtitleColor="#687486"
           onClick={this.handleTouchTap.bind(this)} >
-          <div className="delete-trip-icon">
-            <AddIcon className="delete-icon" onClick={this.handleDelete.bind(this)} />
-          </div>
+
         </CardTitle>
       </Card>
     );

@@ -99,6 +99,7 @@ export function fetchTripList(username) {
       });
     })
     .catch(error => {
+      console.log(error);
       dispatch(authError(error.response.data.error));
       setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
     });
@@ -138,6 +139,40 @@ export function fetchTrip(username, tripId) {
   }
 }
 
+export function createTrip(username, tripName) {
+  return function(dispatch) {
+    axios.post(`${API_URL}/user/${username}`,
+      { tripName },
+      { headers: { Authorization: localStorage.getItem('token') }
+      })
+      .then(response => {
+        const tripId = response.data.tripId;
+        browserHistory.push(`/user/${username}/trip/${tripId}`);
+      })
+      .catch(error => {
+        dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
+      });
+  };
+}
+
+export function editTrip(username, tripId, tripName) {
+  return function(dispatch) {
+    axios.put(`${API_URL}/user/${username}/trip/${tripId}`,
+      { tripName },
+      { headers: { Authorization: localStorage.getItem('token') }
+      })
+      .then(response => {
+        dispatch(clearTripFromStore());
+        browserHistory.push(`/user/${username}/trip/${tripId}`);
+      })
+      .catch(error => {
+        dispatch(authError(error.response.data.error));
+        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
+      });
+  };
+}
+
 export function deleteTrip(username, tripId) {
   return function(dispatch) {
     axios.delete(`${API_URL}/user/${username}/trip/${tripId}`,
@@ -145,7 +180,7 @@ export function deleteTrip(username, tripId) {
       .then(response => {
         browserHistory.push(`/user/${username}`);
       })
-      .catch(() => {
+      .catch(error => {
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -166,7 +201,7 @@ export function fetchActivity(username, tripId, activityId) {
       const startTime = start.clone().toDate();
       const endDate = end.clone().toDate();
       const endTime = end.clone().toDate();
-      console.log("The updated activity: ", { ...response.data, startDate, startTime, endDate, endTime, });
+
       dispatch({
         type: FETCH_ACTIVITY,
         payload: { ...response.data, startDate, startTime, endDate, endTime, },
@@ -190,10 +225,25 @@ export function createActivity(username, tripId, activityData) {
         dispatch(clearTripFromStore());
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
-      .catch(() => {
+      .catch(error => {
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
+  };
+}
+
+export function startBlankActivity({ username, tripId, start }) {
+  return function(dispatch) {
+    if (start) {
+      const startDate = start.clone().toDate();
+      const startTime = start.clone().toDate();
+      dispatch({
+        type: FETCH_ACTIVITY,
+        payload: { startDate, startTime },
+      });
+    }
+
+    browserHistory.push(`/user/${username}/trip/${tripId}/activity/`);
   };
 }
 
@@ -207,7 +257,7 @@ export function updateActivity(username, tripId, activityData) {
         dispatch(clearTripFromStore());
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
-      .catch(() => {
+      .catch(error => {
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -221,7 +271,7 @@ export function deleteActivity(username, tripId, activityId) {
       .then(response => {
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
-      .catch(() => {
+      .catch(error => {
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTripList } from '../actions/';
 import  TripCard  from './TripCard';
 import NewTripCard from './NewTripCard';
+import * as actions from '../actions/';
 
 class TripList extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class TripList extends Component {
 
   render() {
     const trips = this.props.trips;
+
     return (
       <div className="welcome">
         <NewTripCard numTrips={trips.length} />
@@ -30,9 +31,9 @@ class TripList extends Component {
 }
 
 function mapStateToProps(state) {
-  return { trips: state.trips.allTrips };
-  // For testing: view layout without any trips created
-  // return { trips: [] };
+  return {
+    trips: state.trips.allTrips,
+  };
 }
 
-export default connect(mapStateToProps, { fetchTripList })(TripList);
+export default connect(mapStateToProps, actions)(TripList);

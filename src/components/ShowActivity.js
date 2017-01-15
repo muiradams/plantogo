@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
 import { DatePicker, TextField, TimePicker } from 'redux-form-material-ui';
 import * as actions from '../actions';
 
@@ -12,6 +13,11 @@ import * as actions from '../actions';
 const required = value => value == null ? 'Required' : undefined;
 
 class ShowActivity extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { open: false, };
+  }
+
   componentDidMount() {
     const { username, tripId, activityId } = this.props.params;
     if(activityId) {
@@ -68,6 +74,56 @@ class ShowActivity extends Component {
   renderAlert() {
     if (this.props.errorMessage) {
       return <div className="error-alert">{this.props.errorMessage}</div>;
+    }
+  }
+
+  handleOpen() {
+    this.setState({open: true});
+  }
+
+  handleClose() {
+    this.setState({open: false});
+  }
+
+  handleDelete() {
+    const { username, tripId, activityId } = this.props.params;
+    this.props.deleteActivity(username, tripId, activityId);
+  }
+
+  renderDeleteButton() {
+    if (this.props.params.activityId) {
+      const actions = [
+        <FlatButton
+          label="DELETE"
+          primary={true}
+          keyboardFocused={true}
+          onTouchTap={() => this.handleDelete()}
+        />,
+        <FlatButton
+          label="CANCEL"
+          primary={true}
+          onTouchTap={() => this.handleClose()}
+        />,
+      ];
+
+      return (
+        <div>
+          <FlatButton
+            className="submit-button"
+            onClick={() => this.handleOpen()}
+            >
+            DELETE
+          </FlatButton>
+          <Dialog
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={() => this.handleClose()}
+          >
+            Are you sure you want to delete this activity?
+          </Dialog>
+        </div>
+      );
     }
   }
 
@@ -150,6 +206,7 @@ class ShowActivity extends Component {
                 >
                 CANCEL
               </FlatButton>
+              {this.renderDeleteButton()}
           </div>
         </form>
       </Paper>

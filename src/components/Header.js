@@ -6,6 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationBack from 'material-ui/svg-icons/navigation/chevron-left';
 import FlatButton from 'material-ui/FlatButton';
+import EditTripDialog from './EditTripDialog';
 
 class Header extends Component {
   handleLogOut() {
@@ -14,9 +15,11 @@ class Header extends Component {
   }
 
   handleLeftButton() {
-    const { username, tripId, activityId } = this.props.params;
+    const { username, tripId } = this.props.params;
+    const pathname = this.props.location.pathname;
+    const containsActivity = new RegExp("activity");
 
-    if (activityId) {
+    if (containsActivity.test(pathname)) {
       browserHistory.push(`/user/${username}/trip/${tripId}`);
     } else {
       browserHistory.push(`/user/${username}/`);
@@ -52,14 +55,11 @@ class Header extends Component {
       return activity.activityName;
     }
 
-    // Creating a trip
-    if (!pathContainsTripId && containsTrip.test(pathname)) {
-      return 'Create A New Trip';
-    }
-
     // Viewing a trip
     if (pathContainsTripId && trip) {
-      return trip.tripName;
+      return (
+        <EditTripDialog />
+      );
     }
 
     // Showing all trips

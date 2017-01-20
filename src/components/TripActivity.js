@@ -29,12 +29,37 @@ class TripActivity extends Component {
     return <CarIcon className="activity-icon" />;
   }
 
+  renderNewActivityDate(activity, prevActivityDate) {
+    if (activity) {
+      const thisActivityDate = activity.start;
+      const sameDate = moment(thisActivityDate).isSame(moment(prevActivityDate), 'day');
+      if (prevActivityDate === null || !sameDate) {
+        return (
+          <div className="new-activity-date">
+            {moment(activity.start).format("dddd (MMM D)")}
+          </div>
+        );
+      }
+    }
+  }
+
+  renderNotes(notes) {
+    if (notes) {
+      return (
+        <span>
+          <span><strong>Notes: </strong></span><span>{notes}</span>
+        </span>
+      );
+    }
+  }
+
   render() {
     const activity = this.activity;
-    const index = this.props.index;
+    const { prevActivityDate, index } = this.props;
 
     return (
       <div className="timeline-post grey-post">
+        {this.renderNewActivityDate(activity, prevActivityDate)}
         <div className="timeline-meta activity-time">
           <div className="meta-details">{moment(activity.start).format("h:mm a")}</div>
         </div>
@@ -50,7 +75,7 @@ class TripActivity extends Component {
           <div className="timeline-content" onClick={this.handleEditActivity.bind(this)}>
             <h2 className="content-title">{activity.activityName}</h2>
             <div className="content-details">
-              <p>{activity.notes}</p>
+              <p>{this.renderNotes(activity.notes)}</p>
             </div>
           </div>
         </Measure>

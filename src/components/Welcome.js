@@ -11,7 +11,7 @@ export default class Welcome extends Component {
 
   render () {
     return(
-      <div className="welcome">
+      <div>
         <div className="welcome-title">
           <a onClick={this.handleTouchTap} style={{cursor: "pointer"}}>
             <img src="../../images/PlanToGo-Logo.png" width="150px" />

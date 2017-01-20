@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { browserHistory, withRouter } from 'react-router';
 import { Field, reduxForm } from 'redux-form';
+import {Grid, Row, Column} from 'react-cellblock';
 import IconButton from 'material-ui/IconButton';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import Dialog from 'material-ui/Dialog';
@@ -49,6 +50,7 @@ class EditTripDialog extends Component {
   handleEditTrip({ tripName }) {
     const { username, tripId } = this.props.params;
     this.props.editTrip(username, tripId, tripName);
+    this.handleClose();
   }
 
   handleDeleteTrip() {
@@ -74,7 +76,7 @@ class EditTripDialog extends Component {
     return (
       <div>
         <FlatButton
-          className="submit-button"
+          className="delete-button"
           onClick={() => this.handleDeleteOpen()}
           >
           DELETE
@@ -98,7 +100,7 @@ class EditTripDialog extends Component {
         float: "left"
       },
       dialog: {
-        width: '300px',
+        width: '375px',
       },
     };
 
@@ -109,35 +111,50 @@ class EditTripDialog extends Component {
         modal={false}
         contentStyle={style.dialog}
         open={this.state.open}
+        titleStyle={{padding: "30px 14px 20px 29px"}}
+        bodyStyle={{padding: "0 14px 24px 14px"}}
         onRequestClose={() => this.handleClose()}
       >
-        <form onSubmit={handleSubmit(this.handleEditTrip.bind(this))}>
-          <Field component={TextField}
-            name="tripName"
-            hintText="Trip Name"
-            validate={[required]}
-            errorStyle={style.error}
-            className="text-field"
-            onClick={() => this.clearErrorMessage()}
-          />
-          {this.renderAlert()}
-          <div className="dialog-buttons">
-            <FlatButton
-              type="submit"
-              disabled={ !valid || submitting}
-              className="submit-button"
-              >
-              SUBMIT
-            </FlatButton>
-            <FlatButton
-              className="submit-button"
-              onClick={() => this.handleClose()}
-              >
-              CANCEL
-            </FlatButton>
-            {this.renderDeleteButton()}
-          </div>
-        </form>
+        <Grid gutterWidth={10}>
+            <form onSubmit={handleSubmit(this.handleEditTrip.bind(this))}>
+              <Field component={TextField}
+                name="tripName"
+                hintText="Trip Name"
+                validate={[required]}
+                errorStyle={style.error}
+                className="text-field"
+                style={{marginLeft: "15px", width: "315px"}}
+                onClick={() => this.clearErrorMessage()}
+              />
+              {this.renderAlert()}
+              <div className="dialog-buttons">
+                <Row>
+                  <Column width="2/7">
+                    {this.renderDeleteButton()}
+                  </Column>
+                  <Column width="1/7">
+                  </Column>
+                  <Column width="2/7">
+                    <FlatButton
+                      type="submit"
+                      disabled={ !valid || submitting}
+                      className="submit-button"
+                      >
+                      SAVE
+                    </FlatButton>
+                  </Column>
+                  <Column width="2/7">
+                    <FlatButton
+                      className="submit-button"
+                      onClick={() => this.handleClose()}
+                      >
+                      CANCEL
+                    </FlatButton>
+                  </Column>
+                </Row>
+              </div>
+            </form>
+        </Grid>
       </Dialog>
     );
   }
@@ -166,6 +183,7 @@ function mapStateToProps(state) {
 
 const editTripForm = reduxForm({
   form: 'editTrip',
+  enableReinitialize: true,
 })(EditTripDialog);
 
 export default withRouter(connect(mapStateToProps, actions)(editTripForm));

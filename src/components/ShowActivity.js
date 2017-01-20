@@ -1,21 +1,28 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import {Grid, Row, Column} from 'react-cellblock';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-import { DatePicker, TextField, TimePicker } from 'redux-form-material-ui';
+import MenuItem from 'material-ui/MenuItem'
+import { SelectField, TextField } from 'redux-form-material-ui';
+import Default from './forms/Default';
 import * as actions from '../actions';
 
-// Validation functions for redux-form
+// Validation function for redux-form
 const required = value => value == null ? 'Required' : undefined;
 
 class ShowActivity extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: false, };
+
+    this.state = {
+      open: false,
+    };
   }
 
   componentDidMount() {
@@ -27,6 +34,30 @@ class ShowActivity extends Component {
 
   handleCancel() {
     browserHistory.goBack();
+  }
+
+  handleOpen() {
+    this.setState({open: true});
+  }
+
+  handleClose() {
+    this.setState({open: false});
+  }
+
+  handleFormSubmit(formData) {
+    const { username, tripId, activityId } = this.props.params;
+    const startAndEnd = this.combineDateTime(formData);
+
+    if (activityId) {
+      this.props.updateActivity(username, tripId, { ...formData, ...startAndEnd });
+    } else {
+      this.props.createActivity(username, tripId, { ...formData, ...startAndEnd });
+    }
+  }
+
+  handleDelete() {
+    const { username, tripId, activityId } = this.props.params;
+    this.props.deleteActivity(username, tripId, activityId);
   }
 
   clearErrorMessage() {
@@ -45,7 +76,7 @@ class ShowActivity extends Component {
       minute: startTime.getMinutes(),
     });
 
-    if (endDate) {
+    if (endDate && _.isEmpty(endDate) && _.isEmpty(endTime)) {
       const end = moment({
         year: endDate.getFullYear(),
         month: endDate.getMonth(),
@@ -58,36 +89,6 @@ class ShowActivity extends Component {
     }
 
     return { start };
-  }
-
-  handleFormSubmit(formData) {
-    const { username, tripId, activityId } = this.props.params;
-    const startAndEnd = this.combineDateTime(formData);
-
-    if (activityId) {
-      this.props.updateActivity(username, tripId, { ...formData, ...startAndEnd });
-    } else {
-      this.props.createActivity(username, tripId, { ...formData, ...startAndEnd });
-    }
-  }
-
-  renderAlert() {
-    if (this.props.errorMessage) {
-      return <div className="error-alert">{this.props.errorMessage}</div>;
-    }
-  }
-
-  handleOpen() {
-    this.setState({open: true});
-  }
-
-  handleClose() {
-    this.setState({open: false});
-  }
-
-  handleDelete() {
-    const { username, tripId, activityId } = this.props.params;
-    this.props.deleteActivity(username, tripId, activityId);
   }
 
   renderDeleteButton() {
@@ -109,7 +110,7 @@ class ShowActivity extends Component {
       return (
         <div>
           <FlatButton
-            className="submit-button"
+            className="delete-button"
             onClick={() => this.handleOpen()}
             >
             DELETE
@@ -127,103 +128,155 @@ class ShowActivity extends Component {
     }
   }
 
+  renderNotesField() {
+    const style = {
+      fullLength: {
+        width: "100%",
+      },
+    }
+
+    return (
+      <Row>
+        <Column>
+          <Field
+            name="notes"
+            component={TextField}
+            floatingLabelText="Notes"
+            multiLine={true}
+            rowsMax={4}
+            style={style.fullLength}
+          />
+        </Column>
+      </Row>
+    );
+  }
+
+  renderAlert() {
+    if (this.props.errorMessage) {
+      return <div className="error-alert">{this.props.errorMessage}</div>;
+    }
+  }
+
+  renderFormContents() {
+    const { activityType, startDate, endDate } = this.props;
+
+    switch (activityType) {
+      case 'flight':
+        return (
+          <div>
+            <Default startDate={startDate} endDate={endDate} />
+            {this.renderNotesField()}
+          </div>
+        );
+      case 'car':
+        return (
+          <div>
+            <Default startDate={startDate} endDate={endDate} />
+            {this.renderNotesField()}
+          </div>
+        );
+      case 'train':
+        return (
+          <div>
+            <Default startDate={startDate} endDate={endDate} />
+            {this.renderNotesField()}
+          </div>
+        );
+      case 'other':
+        return (
+          <div>
+            <Default startDate={startDate} endDate={endDate} />
+            {this.renderNotesField()}
+          </div>
+        );
+    }
+  }
+
   render() {
     const activity = this.props.activity;
     const { handleSubmit, submitting, valid } = this.props;
     const style = {
       error: {
-        float: "left"
-      }
+        float: "left",
+      },
+      fullLength: {
+        width: "100%",
+      },
     }
 
     return(
-      <Paper className="form-container" zDepth={1}>
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <Field component={TextField}
-            name="activityName"
-            hintText="Activity Name"
-            value="Default Value"
-            validate={[required]}
-            errorStyle={style.error}
-            className="text-field"
-            onClick={() => this.clearErrorMessage()}
-          />
-          <br />
-          <Field component={TextField}
-            name="activityType"
-            hintText="Activity Type"
-            validate={[required]}
-            errorStyle={style.error}
-            className="text-field"
-            onClick={() => this.clearErrorMessage()}
-          />
-          <br />
-          <Field component={DatePicker}
-            name="startDate"
-            hintText="Start Date"
-            format={null}
-            validate={[required]}
-            errorStyle={style.error}
-            className="text-field"
-            onClick={() => this.clearErrorMessage()}
-          />
-          <Field component={TimePicker}
-            name="startTime"
-            hintText="Start Time"
-            format={null}
-            validate={[required]}
-            errorStyle={style.error}
-            className="text-field"
-            onClick={() => this.clearErrorMessage()}
-          />
-          <Field component={DatePicker}
-            name="endDate"
-            hintText="End Date"
-            format={null}
-            errorStyle={style.error}
-            className="text-field"
-            onClick={() => this.clearErrorMessage()}
-          />
-          <Field component={TimePicker}
-            name="endTime"
-            hintText="End Time"
-            format={null}
-            errorStyle={style.error}
-            className="text-field"
-            onClick={() => this.clearErrorMessage()}
-          />
-          {this.renderAlert()}
-          <div><FlatButton
-                type="submit"
-                disabled={ !valid || submitting}
-                className="submit-button"
+      <Grid>
+        <div className="background-dark-cover"></div>
+        <Paper className="form-container" zDepth={1}>
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <Row>
+              <Column>
+                <Field component={SelectField}
+                  name="activityType"
+                  hintText="Activity Type"
+                  floatingLabelText="Activity Type"
+                  validate={[required]}
+                  errorStyle={style.error}
+                  className="text-field"
+                  style={style.fullLength}
+                  hintStyle={{left: "0px"}}
+                  onClick={() => this.clearErrorMessage()}
                 >
-                SAVE
-              </FlatButton>
-              <FlatButton
-                className="submit-button"
-                onClick={() => this.handleCancel()}
-                >
-                CANCEL
-              </FlatButton>
-              {this.renderDeleteButton()}
-          </div>
-        </form>
-      </Paper>
+                  <MenuItem value="flight" primaryText="Flight"/>
+                  <MenuItem value="car" primaryText="Car Rental"/>
+                  <MenuItem value="train" primaryText="Train"/>
+                  <MenuItem value="other" primaryText="Other"/>
+                </Field>
+              </Column>
+            </Row>
+            {this.renderFormContents()}
+            {this.renderAlert()}
+            <Row>
+              <Column width="4/14">
+                {this.renderDeleteButton()}
+              </Column>
+              <Column width="2/14"></Column>
+              <Column width="4/14">
+                <FlatButton
+                  type="submit"
+                  disabled={ !valid || submitting}
+                  className="submit-button"
+                  >
+                  SAVE
+                </FlatButton>
+              </Column>
+              <Column width="4/14">
+                <FlatButton
+                  className="submit-button"
+                  onClick={() => this.handleCancel()}
+                  >
+                  CANCEL
+                </FlatButton>
+              </Column>
+            </Row>
+          </form>
+        </Paper>
+      </Grid>
     );
   }
-}
-
-function mapStateToProps(state) {
-  return {
-    activity: state.trips.activity,
-    errorMessage: state.auth.error,
-    initialValues: state.trips.activity,
-  };
 }
 
 const showActivityForm = reduxForm({
   form: 'showActivity',
 })(ShowActivity);
+
+const selector = formValueSelector('showActivity');
+
+function mapStateToProps(state) {
+  return {
+    fields: state.form.showActivity,
+    activityType: selector(state, 'activityType'),
+    startDate: selector(state, 'startDate'),
+    endDate: selector(state, 'endDate'),
+    activity: state.trips.activity,
+    errorMessage: state.auth.error,
+    initialValues: state.trips.activity,
+  };
+}
 
 export default connect(mapStateToProps, actions)(showActivityForm);

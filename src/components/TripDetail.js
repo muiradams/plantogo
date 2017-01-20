@@ -27,8 +27,14 @@ class TripDetail extends Component {
 
     if (trip.activities.length > 0) {
       const activities = trip.activities.map((activity, index, activities) => {
+        let prevActivityDate = null;
+        if (index > 0) {
+          prevActivityDate = activities[index - 1].start;
+        }
+
         return <TripActivity key={activity._id}
                              activity={activity}
+                             prevActivityDate={prevActivityDate}
                              index={index}
                              username={username}
                />;
@@ -102,31 +108,37 @@ class TripDetail extends Component {
       // If no activities have been created for this trip
       if (trip.activities.length === 0) {
         return (
-          <div className="jazz-timeline-wrapper">
-            <div className="jazz-timeline solid-shadow">
-              <div className="add-activity-icon">
-                <AddIcon className="activity-icon"
-                  onClick={() => this.handleCreateNewActivity()} />
+          <div>
+            <div className="background-dark-cover"></div>
+            <div className="jazz-timeline-wrapper gradient-background">
+              <div className="jazz-timeline solid-shadow">
+                <div className="add-activity-icon">
+                  <AddIcon className="activity-icon"
+                    onClick={() => this.handleCreateNewActivity()} />
+                </div>
               </div>
+              <div className="add-first-activity">Add an Activity</div>
             </div>
-            <div className="add-first-activity">Add an Activity</div>
           </div>
         );
       }
 
       return (
-        <div className="jazz-timeline-wrapper">
-          <div className="jazz-timeline solid-shadow">
-            <div className="add-activity-icon">
-              <AddIcon className="activity-icon"
-                onClick={() => this.handleCreateNewActivity(start)} />
+        <div>
+          <div className="background-dark-cover"></div>
+          <div className="jazz-timeline-wrapper">
+            <div className="jazz-timeline solid-shadow">
+              <div className="add-activity-icon">
+                <AddIcon className="activity-icon"
+                  onClick={() => this.handleCreateNewActivity(start)} />
+              </div>
+              {this.renderActivities(trip)}
+              <div className="add-activity-icon">
+                <AddIcon className="activity-icon"
+                  onClick={() => this.handleCreateNewActivity(end)} />
+              </div>
+                {this.renderAddActivityIcons(trip)}
             </div>
-            {this.renderActivities(trip)}
-            <div className="add-activity-icon">
-              <AddIcon className="activity-icon"
-                onClick={() => this.handleCreateNewActivity(end)} />
-            </div>
-              {this.renderAddActivityIcons(trip)}
           </div>
         </div>
       );

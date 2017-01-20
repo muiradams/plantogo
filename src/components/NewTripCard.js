@@ -74,7 +74,7 @@ class NewTripCard extends Component {
             onClick={() => this.clearErrorMessage()}
           />
           {this.renderAlert()}
-          <div className="dialog-buttons">
+          <div style={{float: "right"}}>
             <FlatButton
               type="submit"
               disabled={ !valid || submitting}

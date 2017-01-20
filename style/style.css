@@ -2,21 +2,6 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1b263b+0,2c3f60+100 */
-  background: #1b263b; /* Old browsers */
-  background: -moz-linear-gradient(top,  #1b263b 0%, #2c3f60 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top,  #1b263b 0%,#2c3f60 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom,  #1b263b 0%,#2c3f60 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b263b', endColorstr='#2c3f60',GradientType=0 ); /* IE6-9 */
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-.welcome {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -27,6 +12,18 @@ body {
   background-size: cover;
 }
 
+.background-dark-cover {
+    min-height: 100%;
+    min-width: 100%;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.75);;
+}
+
 .welcome-title {
     text-align: center;
     position: fixed;
@@ -35,7 +32,7 @@ body {
     font-family: 'Jaldi', sans-serif;
     font-size: 48px;
     color:#303F9F;
-    font-weight:700;
+    font-weight: 700;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, .5);
     line-height: 45px;
 }
@@ -54,11 +51,16 @@ body {
 }
 
 .text-field {
-  margin-bottom: 5px;
+  /*margin-bottom: 5px;*/
 }
 
 .submit-button {
   margin-top: 20px !important;
+}
+
+.delete-button {
+  margin-top: 20px !important;
+  color: red !important;
 }
 
 .error-alert {
@@ -81,7 +83,7 @@ a:hover {
 }
 
 .under-the-header {
-  padding-top: 65px;
+  padding-top: 64px;
 }
 
 .newTripIcon {
@@ -91,6 +93,7 @@ a:hover {
 }
 
 .dialog-buttons {
+  width: 100%;
   float: right;
 }
 
@@ -110,10 +113,10 @@ a:hover {
 }
 
 .form-container {
-  padding: 10px 20px 20px;
-  margin: 20px auto 0px;
+  width: 400px;
+  padding: 10px 10px 10px;
+  margin: 20px auto 20px;
   display: table;
-  text-align: center;
 }
 
 .edit-icon {
@@ -123,6 +126,16 @@ a:hover {
   position: absolute;
   top: 17px;
   left: 10px;
+}
+
+.new-activity-date {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-family: 'Jaldi', sans-serif;
+  font-weight: 400;
+  border-bottom-width: 3px;
+  border-bottom-style: dotted;
+  border-bottom-color: #7381D9;
 }
 
 /* @responsive styling

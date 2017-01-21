@@ -5,7 +5,18 @@ import Measure from 'react-measure';
 import moment from 'moment';
 import * as actions from '../actions/';
 import FlightIcon from 'material-ui/svg-icons/maps/flight';
+import LodgingIcon from 'material-ui/svg-icons/maps/hotel';
+import RestaurantIcon from 'material-ui/svg-icons/maps/local-dining';
 import CarIcon from 'material-ui/svg-icons/maps/directions-car';
+import TrainIcon from 'material-ui/svg-icons/maps/train';
+import BusIcon from 'material-ui/svg-icons/maps/directions-bus';
+import MeetingIcon from 'material-ui/svg-icons/social/people';
+import TourIcon from 'material-ui/svg-icons/maps/map';
+import AttractionIcon from 'material-ui/svg-icons/maps/local-see';
+import EventIcon from 'material-ui/svg-icons/maps/local-activity';
+import FerryIcon from 'material-ui/svg-icons/maps/directions-boat';
+import CruiseIcon from 'material-ui/svg-icons/hardware/toys';
+import OtherIcon from 'material-ui/svg-icons/maps/place';
 import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
 
 class TripActivity extends Component {
@@ -22,11 +33,34 @@ class TripActivity extends Component {
   }
 
   renderActivityIcon(activityType) {
-    if (activityType === 'flight') {
-      return <FlightIcon className="activity-icon" />;
+    switch(activityType) {
+      case 'flight':
+        return <FlightIcon className="activity-icon" />;
+      case 'lodging':
+        return <LodgingIcon className="activity-icon" />;
+      case 'restaurant':
+        return <RestaurantIcon className="activity-icon" />;
+      case 'car':
+        return <CarIcon className="activity-icon" />;
+      case 'train':
+        return <TrainIcon className="activity-icon" />;
+      case 'bus':
+        return <BusIcon className="activity-icon" />;
+      case 'meeting':
+        return <MeetingIcon className="activity-icon" />;
+      case 'tour':
+        return <TourIcon className="activity-icon" />;
+      case 'attraction':
+        return <AttractionIcon className="activity-icon" />;
+      case 'event':
+        return <EventIcon className="activity-icon" />;
+      case 'ferry':
+        return <FerryIcon className="activity-icon" />;
+      case 'cruise':
+        return <CruiseIcon className="activity-icon" />;
+      default:
+        return <OtherIcon className="activity-icon" />;
     }
-
-    return <CarIcon className="activity-icon" />;
   }
 
   renderNewActivityDate(activity, prevActivityDate) {
@@ -45,9 +79,24 @@ class TripActivity extends Component {
 
   renderNotes(notes) {
     if (notes) {
+      let subString = notes;
+      let shortNotes = notes;
+      let maxLength = 50;
+
+      if (notes.includes('\n')) {
+        subString = notes.substring(0, notes.indexOf('\n'));
+      }
+
+      if (subString.length > maxLength || notes.includes('\n')) {
+        shortNotes = subString.substr(0, maxLength) + " ...";
+      } else {
+        shortNotes = subString;
+      }
+
+
       return (
         <span>
-          <span><strong>Notes: </strong></span><span>{notes}</span>
+          <span><strong>Notes:&nbsp; </strong></span><span>{shortNotes}</span>
         </span>
       );
     }

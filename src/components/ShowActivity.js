@@ -3,18 +3,46 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import {Grid, Row, Column} from 'react-cellblock';
+import {Grid, Row, Column } from 'react-cellblock';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import MenuItem from 'material-ui/MenuItem'
+import FlightIcon from 'material-ui/svg-icons/maps/flight';
+import LodgingIcon from 'material-ui/svg-icons/maps/hotel';
+import RestaurantIcon from 'material-ui/svg-icons/maps/local-dining';
+import CarIcon from 'material-ui/svg-icons/maps/directions-car';
+import TrainIcon from 'material-ui/svg-icons/maps/train';
+import BusIcon from 'material-ui/svg-icons/maps/directions-bus';
+import MeetingIcon from 'material-ui/svg-icons/social/people';
+import TourIcon from 'material-ui/svg-icons/maps/map';
+import AttractionIcon from 'material-ui/svg-icons/maps/local-see';
+import EventIcon from 'material-ui/svg-icons/maps/local-activity';
+import FerryIcon from 'material-ui/svg-icons/maps/directions-boat';
+import CruiseIcon from 'material-ui/svg-icons/hardware/toys';
+import OtherIcon from 'material-ui/svg-icons/maps/place';
 import { SelectField, TextField } from 'redux-form-material-ui';
-import Default from './forms/Default';
+import Flight from './forms/Flight';
+import Lodging from './forms/Lodging';
+import Restaurant from './forms/Restaurant';
+import RentalCar from './forms/RentalCar';
+import Train from './forms/Train';
+import Bus from './forms/Bus';
+import Meeting from './forms/Meeting';
+import Tour from './forms/Tour';
+import Attraction from './forms/Attraction';
+import Event from './forms/Event';
+import Ferry from './forms/Ferry';
+import Cruise from './forms/Cruise';
+import Other from './forms/Other';
+import StartEnd from './forms/StartEnd';
+import ConfirmationNumber from './forms/ConfirmationNumber';
+import Notes from './forms/Notes';
 import * as actions from '../actions';
 
 // Validation function for redux-form
-const required = value => value == null ? 'Required' : undefined;
+const required = value => value == null || value === '' ? 'Required' : undefined;
 
 class ShowActivity extends Component {
   constructor(props) {
@@ -48,10 +76,28 @@ class ShowActivity extends Component {
     const { username, tripId, activityId } = this.props.params;
     const startAndEnd = this.combineDateTime(formData);
 
+    // If user clears non-required fields, then notify backend to update database
+    let { startLocation, endLocation, notes } = formData;
+    if (!startLocation) startLocation = { delete: true };
+    if (!endLocation) endLocation = { delete: true };
+    if (!notes) notes = { delete: true };
+
     if (activityId) {
-      this.props.updateActivity(username, tripId, { ...formData, ...startAndEnd });
+      this.props.updateActivity(username, tripId, {
+        ...formData,
+        ...startAndEnd,
+        startLocation,
+        endLocation,
+        notes,
+      });
     } else {
-      this.props.createActivity(username, tripId, { ...formData, ...startAndEnd });
+      this.props.createActivity(username, tripId, {
+        ...formData,
+        ...startAndEnd,
+        startLocation,
+        endLocation,
+        notes,
+      });
     }
   }
 
@@ -91,6 +137,12 @@ class ShowActivity extends Component {
     return { start };
   }
 
+  renderAlert() {
+    if (this.props.errorMessage) {
+      return <div className="error-alert">{this.props.errorMessage}</div>;
+    }
+  }
+
   renderDeleteButton() {
     if (this.props.params.activityId) {
       const actions = [
@@ -128,65 +180,209 @@ class ShowActivity extends Component {
     }
   }
 
-  renderNotesField() {
-    const style = {
-      fullLength: {
-        width: "100%",
-      },
-    }
-
-    return (
-      <Row>
-        <Column>
-          <Field
-            name="notes"
-            component={TextField}
-            floatingLabelText="Notes"
-            multiLine={true}
-            rowsMax={4}
-            style={style.fullLength}
-          />
-        </Column>
-      </Row>
-    );
-  }
-
-  renderAlert() {
-    if (this.props.errorMessage) {
-      return <div className="error-alert">{this.props.errorMessage}</div>;
-    }
-  }
-
   renderFormContents() {
     const { activityType, startDate, endDate } = this.props;
+    let startLocation = '';
+    if (this.props.initialValues) {
+      startLocation = this.props.initialValues.startLocation;
+    }
 
     switch (activityType) {
       case 'flight':
         return (
           <div>
-            <Default startDate={startDate} endDate={endDate} />
-            {this.renderNotesField()}
+            <Flight />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Departure'}
+              endLabel={'Arrival'}
+              location={startLocation}
+              isLocationRequired={true}
+            />
+            <ConfirmationNumber />
+            <Notes />
+          </div>
+        );
+      case 'lodging':
+        return (
+          <div>
+            <Lodging />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Check-in'}
+              endLabel={'Check-out'}
+              isToggleDisabled={true}
+            />
+            <ConfirmationNumber labelText={'Reservation'} />
+            <Notes />
+          </div>
+        );
+      case 'restaurant':
+        return (
+          <div>
+            <Restaurant />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Reservation'}
+              endLabel={'End'}
+              isToggleDisabled={true}
+            />
+            <ConfirmationNumber labelText={'Reservation'} />
+            <Notes />
           </div>
         );
       case 'car':
         return (
           <div>
-            <Default startDate={startDate} endDate={endDate} />
-            {this.renderNotesField()}
+            <RentalCar />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Pickup'}
+              endLabel={'Return'}
+              location={startLocation}
+              isLocationRequired={true}
+            />
+            <ConfirmationNumber />
+            <Notes />
           </div>
         );
       case 'train':
         return (
           <div>
-            <Default startDate={startDate} endDate={endDate} />
-            {this.renderNotesField()}
+            <Train />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Departure'}
+              endLabel={'Arrival'}
+              location={startLocation}
+              isLocationRequired={true}
+            />
+            <ConfirmationNumber />
+            <Notes />
+          </div>
+        );
+      case 'bus':
+        return (
+          <div>
+            <Bus />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Departure'}
+              endLabel={'Arrival'}
+              location={startLocation}
+              isLocationRequired={true}
+            />
+            <ConfirmationNumber />
+            <Notes />
+          </div>
+        );
+      case 'meeting':
+        return (
+          <div>
+            <Meeting />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Start'}
+              endLabel={'End'}
+              isToggleDisabled={true}
+            />
+            <Notes />
+          </div>
+        );
+      case 'tour':
+        return (
+          <div>
+            <Tour />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Start'}
+              endLabel={'End'}
+              location={startLocation}
+            />
+            <ConfirmationNumber />
+            <Notes />
+          </div>
+        );
+      case 'attraction':
+        return (
+          <div>
+            <Attraction />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Start'}
+              endLabel={'End'}
+              isToggleDisabled={true}
+            />
+            <ConfirmationNumber />
+            <Notes />
+          </div>
+        );
+      case 'event':
+        return (
+          <div>
+            <Event />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Start'}
+              endLabel={'End'}
+              location={startLocation}
+            />
+            <ConfirmationNumber />
+            <Notes />
+          </div>
+        );
+      case 'ferry':
+        return (
+          <div>
+            <Ferry />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Departure'}
+              endLabel={'Arrival'}
+              location={startLocation}
+              isLocationRequired={true}
+            />
+            <ConfirmationNumber />
+            <Notes />
+          </div>
+        );
+      case 'cruise':
+        return (
+          <div>
+            <Cruise />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              startLabel={'Departure'}
+              endLabel={'Arrival'}
+              location={startLocation}
+              isLocationRequired={true}
+            />
+            <ConfirmationNumber />
+            <Notes />
           </div>
         );
       case 'other':
         return (
           <div>
-            <Default startDate={startDate} endDate={endDate} />
-            {this.renderNotesField()}
+            <Other />
+            <StartEnd
+              startDate={startDate}
+              endDate={endDate}
+              location={startLocation}
+            />
+            <Notes />
           </div>
         );
     }
@@ -213,8 +409,8 @@ class ShowActivity extends Component {
               <Column>
                 <Field component={SelectField}
                   name="activityType"
-                  hintText="Activity Type"
-                  floatingLabelText="Activity Type"
+                  hintText="Activity Type*"
+                  floatingLabelText="Activity Type*"
                   validate={[required]}
                   errorStyle={style.error}
                   className="text-field"
@@ -222,10 +418,19 @@ class ShowActivity extends Component {
                   hintStyle={{left: "0px"}}
                   onClick={() => this.clearErrorMessage()}
                 >
-                  <MenuItem value="flight" primaryText="Flight"/>
-                  <MenuItem value="car" primaryText="Car Rental"/>
-                  <MenuItem value="train" primaryText="Train"/>
-                  <MenuItem value="other" primaryText="Other"/>
+                  <MenuItem value="flight" primaryText="Flight" leftIcon={<FlightIcon />} />
+                  <MenuItem value="lodging" primaryText="Lodging" leftIcon={<LodgingIcon />} />
+                  <MenuItem value="restaurant" primaryText="Restaurant" leftIcon={<RestaurantIcon />} />
+                  <MenuItem value="car" primaryText="Car Rental" leftIcon={<CarIcon />} />
+                  <MenuItem value="train" primaryText="Train" leftIcon={<TrainIcon />} />
+                  <MenuItem value="bus" primaryText="Bus" leftIcon={<BusIcon />} />
+                  <MenuItem value="meeting" primaryText="Meeting" leftIcon={<MeetingIcon />} />
+                  <MenuItem value="tour" primaryText="Tour" leftIcon={<TourIcon />} />
+                  <MenuItem value="attraction" primaryText="Attraction" leftIcon={<AttractionIcon />} />
+                  <MenuItem value="event" primaryText="Event" leftIcon={<EventIcon />} />
+                  <MenuItem value="ferry" primaryText="Ferry" leftIcon={<FerryIcon />} />
+                  <MenuItem value="cruise" primaryText="Cruise" leftIcon={<CruiseIcon />} />
+                  <MenuItem value="other" primaryText="Other" leftIcon={<OtherIcon />} />
                 </Field>
               </Column>
             </Row>
@@ -255,6 +460,7 @@ class ShowActivity extends Component {
               </Column>
             </Row>
           </form>
+          <div className="required-field-text">* required field</div>
         </Paper>
       </Grid>
     );

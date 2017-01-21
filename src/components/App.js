@@ -13,6 +13,7 @@ export default class App extends Component {
       palette: {
         borderColor: '#3F51B5',
         primary1Color: '#3F51B5',
+        pickerHeaderColor: '#3F51B5',
         primary2Color: '#3F51B5',
         textColor: '#3F51B5',
         disabledColor: '#687486',

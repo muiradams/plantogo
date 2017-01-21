@@ -32,7 +32,7 @@ class TripDetail extends Component {
           prevActivityDate = activities[index - 1].start;
         }
 
-        return <TripActivity key={activity._id}
+        return <TripActivity key={`${activity._id}${index}`}
                              activity={activity}
                              prevActivityDate={prevActivityDate}
                              index={index}

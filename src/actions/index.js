@@ -156,9 +156,25 @@ export function fetchTrip(username, tripId) {
       headers: { Authorization: localStorage.getItem('token')}
     })
     .then(response => {
-      // Sort the activities by start day/time before sending them on
+      /*
+       * Split lodging and car activities into separate checkin/checkout and
+       * pickup/return activities, respectively, and add them to the array of
+       * all activities to be sorted
+       */
       const fetchedActivities = response.data.activities;
-      const mappedActivities = fetchedActivities.map(function(activity, index) {
+      const lodgingAndCarActivities = fetchedActivities.filter(function(activity) {
+        const name = activity.activityType;
+        return activity.end && (name === 'lodging' || name === 'car' );
+      });
+      const newActivities = lodgingAndCarActivities.map(function(activity) {
+        const start = activity.end;
+        return { ...activity, start };
+      });
+
+      const allActivities = [...fetchedActivities, ...newActivities];
+
+      // Sort the activities by start day/time before sending them on
+      const mappedActivities = allActivities.map(function(activity, index) {
         const start = moment(activity.start);
         return { index, start };
       });
@@ -168,7 +184,7 @@ export function fetchTrip(username, tripId) {
       });
 
       const activities = mappedActivities.map(function(activity) {
-        return fetchedActivities[activity.index];
+        return allActivities[activity.index];
       });
 
       dispatch({

@@ -75,19 +75,32 @@ class ShowActivity extends Component {
   handleFormSubmit(formData) {
     const { username, tripId, activityId } = this.props.params;
     const startAndEnd = this.combineDateTime(formData);
-    let { startLocation, endLocation, notes } = formData;
+    let {
+      startLocation,
+      endLocation,
+      transportNumber,
+      address,
+      confirmationNumber,
+      notes
+    } = formData;
 
     if (activityId) {
       // If user clears non-required fields, then notify backend to update database
       if (!startLocation) startLocation = { delete: true };
       if (!endLocation) endLocation = { delete: true };
       if (!notes) notes = { delete: true };
+      if (!transportNumber) transportNumber = { delete: true };
+      if (!address) address = { delete: true };
+      if (!confirmationNumber) confirmationNumber = { delete: true };
 
       this.props.updateActivity(username, tripId, {
         ...formData,
         ...startAndEnd,
         startLocation,
         endLocation,
+        transportNumber,
+        address,
+        confirmationNumber,
         notes,
       });
     } else {
@@ -333,9 +346,7 @@ class ShowActivity extends Component {
             <StartEnd
               startDate={startDate}
               endDate={endDate}
-              startLabel={'Start'}
-              endLabel={'End'}
-              location={startLocation}
+              isToggleDisabled={true}
             />
             <ConfirmationNumber />
             <Notes />

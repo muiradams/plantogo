@@ -83,8 +83,11 @@ class TripActivity extends Component {
       activityName,
       isSecondPart,
       startLocation,
-      endLocation
+      endLocation,
+      transportNumber,
     } = activity;
+
+    const showTransportNumber = () => transportNumber ? transportNumber : '';
 
     switch(activityType) {
       case 'flight':
@@ -112,7 +115,7 @@ class TripActivity extends Component {
       case 'ferry':
         return `Ferry to ${endLocation}`;
       case 'cruise':
-        return `Cruise on ${activityName}`;
+        return `Cruise on ${activityName} ${showTransportNumber()}`;
       default:
         return activityName;
     }
@@ -135,11 +138,23 @@ class TripActivity extends Component {
     if (isSecondPart) return;
 
     const showConfirmation = (confirmationType) => {
-      if (confirmationNumber) return `${confirmationType} #: ${confirmationNumber}`;
+      if (confirmationNumber) {
+        return (
+          <div>
+            <strong>{`${confirmationType} #: `}</strong>&nbsp;{confirmationNumber}
+          </div>
+        );
+      }
     }
 
     const showAddress = () => {
-      if (address) return `Address: ${address}`;
+      if (address) {
+        return (
+          <div>
+          <strong>Address: </strong>&nbsp;{address}
+          </div>
+        );
+      }
     }
 
     const showTransportNumber = (transportType) => {
@@ -156,12 +171,6 @@ class TripActivity extends Component {
           </div>
         );
       case 'lodging':
-        return (
-          <div>
-            <div>{showAddress()}</div>
-            <div>{showConfirmation('Reservation')}</div>
-          </div>
-        );
       case 'restaurant':
         return (
           <div>
@@ -177,61 +186,41 @@ class TripActivity extends Component {
           </div>
         );
       case 'train':
-        return (
-          <div>
-            <div>{activityName} {showTransportNumber('Line')}</div>
-            <div>Departure Station: {startLocation}</div>
-            <div>{showConfirmation('Confirmation')}</div>
-          </div>
-        );
       case 'bus':
-        return (
-          <div>
-
-          </div>
-        );
+      case 'ferry':
+      return (
+        <div>
+          <div>{activityName} {showTransportNumber('Line')}</div>
+          <div><strong>Depart:</strong> {startLocation}</div>
+          <div>{showConfirmation('Confirmation')}</div>
+        </div>
+      );
+      case 'attraction':
+      case 'event':
       case 'meeting':
         return (
           <div>
-
+            <div>{showAddress()}</div>
+            <div>{showConfirmation('Confirmation')}</div>
           </div>
         );
       case 'tour':
         return (
           <div>
-
-          </div>
-        );
-      case 'attraction':
-        return (
-          <div>
-
-          </div>
-        );
-      case 'event':
-        return (
-          <div>
-
-          </div>
-        );
-      case 'ferry':
-        return (
-          <div>
-
+            <div>
+              <div>{address} ({startLocation})</div>
+            </div>
           </div>
         );
       case 'cruise':
         return (
           <div>
-
+            <div><strong>Depart: </strong>&nbsp;{startLocation}</div>
+            <div>{showConfirmation('Confirmation')}</div>
           </div>
         );
       default:
-        return (
-          <div>
-
-          </div>
-        );
+        return;
     }
   }
 

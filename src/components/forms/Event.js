@@ -20,18 +20,32 @@ const style = {
 export default class Event extends Component {
   render() {
     return (
-      <Row>
-        <Column>
-          <Field component={TextField}
-            name="activityName"
-            floatingLabelText="Event Name*"
-            validate={[required]}
-            errorStyle={style.error}
-            className="text-field"
-            style={style.fullLength}
-          />
-        </Column>
-      </Row>
+      <div>
+        <Row>
+          <Column>
+            <Field component={TextField}
+              name="activityName"
+              floatingLabelText="Event Name*"
+              validate={[required]}
+              errorStyle={style.error}
+              className="text-field"
+              style={style.fullLength}
+            />
+          </Column>
+        </Row>
+        <Row>
+          <Column>
+            <Field component={TextField}
+              name="address"
+              floatingLabelText="Address"
+              errorStyle={style.error}
+              className="text-field"
+              style={style.fullLength}
+              inputStyle={style.grayBackground}
+            />
+          </Column>
+        </Row>
+      </div>
     )
   }
 }

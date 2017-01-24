@@ -54,7 +54,7 @@ class TripDetail extends Component {
             // Calculate the location in the window to add the newActivityIcon
             const timelinePost1 = measurements[index];
             const timelinePost2 = measurements[index + 1];
-            const locationToAddActivityIcon = (timelinePost1 + ((timelinePost2 - timelinePost1) / 2)) - 63;
+            const locationToAddActivityIcon = (timelinePost1 + ((timelinePost2 - timelinePost1) / 2)) - 83;
             const style = {
               top: locationToAddActivityIcon,
               position: 'absolute',

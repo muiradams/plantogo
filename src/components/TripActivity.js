@@ -77,6 +77,164 @@ class TripActivity extends Component {
     }
   }
 
+  renderActivityName(activity) {
+    const {
+      activityType,
+      activityName,
+      isSecondPart,
+      startLocation,
+      endLocation
+    } = activity;
+
+    switch(activityType) {
+      case 'flight':
+        return `Flight to ${endLocation}`;
+      case 'lodging':
+        if (isSecondPart) return `Check-out at ${activityName}`;
+        return `Check-in at ${activityName}`;
+      case 'restaurant':
+        return `Dining at ${activityName}`;
+      case 'car':
+        if (isSecondPart) return 'Return Rental Car';
+        return 'Pick-up Rental Car';
+      case 'train':
+        return `Train to ${endLocation}`;
+      case 'bus':
+        return `Bus to ${endLocation}`;
+      case 'meeting':
+        return `Meeting with ${activityName}`;
+      case 'tour':
+        return `Tour: ${activityName}`;
+      case 'attraction':
+        return `Visit ${activityName}`;
+      case 'event':
+        return `Attend ${activityName}`;
+      case 'ferry':
+        return `Ferry to ${endLocation}`;
+      case 'cruise':
+        return `Cruise on ${activityName}`;
+      default:
+        return activityName;
+    }
+  }
+
+  renderContent(activity) {
+    const {
+      activityType,
+      activityName,
+      isSecondPart,
+      startLocation,
+      endLocation,
+      address,
+      confirmationNumber,
+      transportNumber,
+      // start,
+      // end,
+    } = activity;
+
+    if (isSecondPart) return;
+
+    const showConfirmation = (confirmationType) => {
+      if (confirmationNumber) return `${confirmationType} #: ${confirmationNumber}`;
+    }
+
+    const showAddress = () => {
+      if (address) return `Address: ${address}`;
+    }
+
+    const showTransportNumber = (transportType) => {
+      if (transportNumber) return `(${transportType}: ${transportNumber})`;
+    }
+
+    switch(activityType) {
+      case 'flight':
+        return (
+          <div>
+            <div>{activityName} {showTransportNumber('Flight #')}</div>
+            <div>{startLocation} - {endLocation}</div>
+            <div>{showConfirmation('Confirmation')}</div>
+          </div>
+        );
+      case 'lodging':
+        return (
+          <div>
+            <div>{showAddress()}</div>
+            <div>{showConfirmation('Reservation')}</div>
+          </div>
+        );
+      case 'restaurant':
+        return (
+          <div>
+            <div>{showAddress()}</div>
+            <div>{showConfirmation('Reservation')}</div>
+          </div>
+        );
+      case 'car':
+        return (
+          <div>
+            <div>{activityName} ({startLocation})</div>
+            <div>{showConfirmation('Confirmation')}</div>
+          </div>
+        );
+      case 'train':
+        return (
+          <div>
+            <div>{activityName} {showTransportNumber('Line')}</div>
+            <div>Departure Station: {startLocation}</div>
+            <div>{showConfirmation('Confirmation')}</div>
+          </div>
+        );
+      case 'bus':
+        return (
+          <div>
+
+          </div>
+        );
+      case 'meeting':
+        return (
+          <div>
+
+          </div>
+        );
+      case 'tour':
+        return (
+          <div>
+
+          </div>
+        );
+      case 'attraction':
+        return (
+          <div>
+
+          </div>
+        );
+      case 'event':
+        return (
+          <div>
+
+          </div>
+        );
+      case 'ferry':
+        return (
+          <div>
+
+          </div>
+        );
+      case 'cruise':
+        return (
+          <div>
+
+          </div>
+        );
+      default:
+        return (
+          <div>
+
+          </div>
+        );
+    }
+  }
+
   renderNotes(notes) {
     if (notes) {
       let subString = notes;
@@ -93,12 +251,26 @@ class TripActivity extends Component {
         shortNotes = subString;
       }
 
+      return <p><strong>Notes:&nbsp; </strong><span>{shortNotes}</span></p>;
+    }
+  }
 
-      return (
-        <span>
-          <span><strong>Notes:&nbsp; </strong></span><span>{shortNotes}</span>
-        </span>
-      );
+  renderEndTime(activity) {
+    const { activityType, end, start } = activity;
+    if (end) {
+      if (activityType === 'car' || activityType === 'lodging') {
+        return;
+      }
+
+      if (end) {
+        const startTime = moment(start);
+        const endTime = moment(end);
+        if (endTime.isAfter(startTime, 'day')) {
+          return moment(end).format("h:mm a (dddd, MMM D)");
+        }
+
+        return moment(end).format("h:mm a");
+      }
     }
   }
 
@@ -122,14 +294,15 @@ class TripActivity extends Component {
             this.props.saveMeasurements(top, index);
         }}>
           <div className="timeline-content" onClick={this.handleEditActivity.bind(this)}>
-            <h2 className="content-title">{activity.activityName}</h2>
+            <h2 className="content-title">{this.renderActivityName(activity)}</h2>
             <div className="content-details">
-              <p>{this.renderNotes(activity.notes)}</p>
+              <div className="content">{this.renderContent(activity)}</div>
+              {this.renderNotes(activity.notes)}
             </div>
           </div>
         </Measure>
         <div className="timeline-meta activity-time">
-          <div className="meta-details">{activity.end ? moment(activity.end).format("h:mm a") : ""}</div>
+          <div className="meta-details">{this.renderEndTime(activity)}</div>
         </div>
       </div>
     );

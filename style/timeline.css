@@ -1,11 +1,3 @@
-/* Google font import
-------------------------------------------------------------------------
-@import 'https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic';*/
-@import url(https://fonts.googleapis.com/css?family=Work+Sans:400,300,500);
-@import url(https://fonts.googleapis.com/css?family=Arvo:400,400italic,700);
-@import url(https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700);
-@import url(https://fonts.googleapis.com/css?family=Alegreya+Sans:400,300,300italic,400italic,500,500italic,700,700italic);
-
 /* @body background style
 ----------------------------------------------- */
 .jazz-timeline-wrapper,
@@ -22,7 +14,7 @@
 	width: 90%;
 	max-width: 1024px;
 	margin: 2em auto;
-	font-family:"Alegreya Sans", Arial, Helvetica, sans-serif;
+	font-family:'Jaldi', sans-serif;
 	font-weight:400;
 	display: table;
 }
@@ -42,9 +34,9 @@
    	background-image: -webkit-linear-gradient(top, #EAF0F2 0%, #C1C1C1 8%, #C1C1C1 92%, #EAF0F2 100%);
     background-image: -moz-linear-gradient(top, #EAF0F2 0%, #C1C1C1 8%, #C1C1C1 92%, #EAF0F2 100%);
     background-image: -ms-linear-gradient(top, #EAF0F2 0%, #C1C1C1 8%, #C1C1C1 92%, #EAF0F2 100%);
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	margin-left: -2px;
 	position: absolute;
 	display: block;
@@ -59,13 +51,13 @@
 .jazz-timeline .timeline-post {
 	margin: 0;
 	border: 0 none;
-	padding: 0 54px 5px 0;
+	padding: 0 60px 5px 0;
 	width: 50%;
 }
 
 .jazz-timeline .timeline-post:nth-child(even) {
 	margin-left: 50%;
-	padding: 0 0 5px 54px;
+	padding: 0 0 5px 60px;
 }
 
 .jazz-timeline .timeline-post:last-child,
@@ -73,15 +65,15 @@
 	padding-bottom: 0;
 }
 
-/* timeline meta | for date or extra info
+/* timeline meta | for date
 -------------------------------------------------------- */
 .jazz-timeline .timeline-post .timeline-meta .activity-time {
 	color: #999;
-	font-weight:500;
+	font-weight:400;
 	width: 100%;
 	left: 0;
 	right: 0;
-	margin: 0 0 5px;
+	margin: 0px;
 	position: relative;
 	text-align: right !important;
 }
@@ -89,7 +81,7 @@
 .jazz-timeline .timeline-post:nth-child(even) .timeline-meta {
 	left: 0;
 	right: 0;
-	margin: 0 0 5px;
+	margin: 0px;
 	position: relative;
 	text-align: left;
 }
@@ -98,45 +90,12 @@
 .jazz-timeline .timeline-post .for-large-icons{ margin: 45px 0 0 50px; }
 .jazz-timeline .timeline-post:nth-child(even) .for-large-icons{ margin: 45px 50px 0 0; }
 
-/* one sided | all posts to the right - pointing left
--------------------------------------------------------------*/
-.jazz-timeline.one-sided:before { left:0; }
-.jazz-timeline.one-sided .timeline-post,
-.jazz-timeline.one-sided .timeline-post:nth-child(even) {
-	margin: 0;
-	padding: 0 0 30px 60px;
-	width: 100%;
-}
-
-.jazz-timeline.one-sided .timeline-post .timeline-time,
-.jazz-timeline.one-sided .timeline-post:nth-child(even) .timeline-time {
-	left: 0;
-	right: 0;
-	margin: 0 0 5px;
-	position: relative;
-	text-align: left;
-}
-
-.jazz-timeline.one-sided .timeline-post .timeline-icon {
-	left: 0;
-	margin: 22px 0 0 -35px;
-}
-
-.jazz-timeline.one-sided .timeline-post .timeline-meta,
-.jazz-timeline.one-sided .timeline-post:nth-child(even) .timeline-meta {
-	left: 0;
-	right: 0;
-	margin: 0 0 10px;
-	position: relative;
-	text-align: right;
-}
-
 /*
 ---------------------------------------------------------------
 TIMELINE DIVIDERS | DECORATIONS
 ---------------------------------------------------------------
 */
-/* Muir */
+
 .add-activity-icon-wrapper {
 	width: 100%;
 	height: 100%;
@@ -160,7 +119,7 @@ TIMELINE DIVIDERS | DECORATIONS
 	position: relative;
 	display: table;
 	margin: 40px auto;
-	font-family:"Roboto", Arial, Helvetica, sans-serif;
+	font-family:'Jaldi', sans-serif;
 	font-weight:400;
 	font-size: 14px;
 }
@@ -190,7 +149,7 @@ TIMELINE DIVIDERS | DECORATIONS
 	width: 110px;
 	text-align: center;
 	margin: 20px auto;
-	font-family:"Roboto", Arial, Helvetica, sans-serif;
+	font-family:'Jaldi', sans-serif;
 	font-weight:400;
 	font-size: 14px;
 }
@@ -255,45 +214,13 @@ TIMELINE DIVIDERS | DECORATIONS
   color: #FFFFFF !important;
 }
 
-.delete-activity-icon {
-	position: relative;
-	text-align: center;
-	-webkit-border-radius:40px;
-	-moz-border-radius:40px;
-	border-radius:40px;
-	height: 20px;
-	width: 20px;
-	z-index:10;
-/*	background:#3F51B5; */
-	cursor: pointer;
-	float: right;
-	transform: rotate(45deg);
-}
-
-.delete-trip-icon {
-	position: relative;
-	text-align: center;
-	-webkit-border-radius:40px;
-	-moz-border-radius:40px;
-	border-radius:40px;
-  top: -50px;
-	height: 20px;
-	width: 20px;
-	z-index:10;
-/*	background:#3F51B5; */
-	cursor: pointer;
-	float: right;
-	transform: rotate(45deg);
-}
-
 /* large circular seperator | can have dates or icons
 ------------------------------------------------------------- */
 .jazz-timeline .timeline-post .timeline-icon {
 	background:#fff;
 	line-height: 70px;
 	position: absolute;
-	text-align: center;
-	margin: 18px -25px 0 -25px;
+  margin: -3px -25px 0 -25px;
 	-webkit-border-radius:40px;
 	-moz-border-radius:40px;
 	border-radius:40px;
@@ -310,8 +237,7 @@ TIMELINE DIVIDERS | DECORATIONS
 	/*background:#fff;*/
 	line-height: 70px;
 	position: absolute;
-	text-align: center;
-	margin: 18px -25px 0 -25px;
+	margin: -3px -25px 0 -25px;
 	-webkit-border-radius:40px;
 	-moz-border-radius:40px;
 	border-radius:40px;
@@ -326,20 +252,19 @@ TIMELINE DIVIDERS | DECORATIONS
 
 .jazz-timeline .timeline-post .timeline-icon .icon-placeholder{
 	line-height:30px;
-	font-weight:500;
+	font-weight:400;
 	font-size:13px;
-	padding:3px 0 0 1px;
+	left: 26%;
+  top: 24%;
 }
 
 .jazz-timeline .timeline-post .timeline-icon .icon-placeholder .activity-icon{
 	position: relative;
-  top: 10px;
   color: #FFFFFF !important;
 }
 
 .jazz-timeline .timeline-post:nth-child(even) .timeline-icon .icon-placeholder .activityIcon{
 	position: relative;
-  top: 10px;
   color: #FFFFFF !important;
 }
 
@@ -366,20 +291,26 @@ TIMELINE DIVIDERS | DECORATIONS
 .jazz-timeline .timeline-post .timeline-content {
 	background: #fff;
 	position: relative;
-	border: 1px solid #fff;
 	-webkit-transition: all 0.4s;
 	-moz-transition: all 0.4s;
 	transition: all 0.4s;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	padding: 15px 15px 15px 20px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	cursor: pointer;
 }
 
 .jazz-timeline .timeline-post.no-padding .timeline-content { padding: 0; }
 .jazz-timeline .timeline-post .timeline-content p{
-	margin: 5px 0 10px 0;
+	padding: 0px 10px 3px 8px;
+	line-height:25px;
+	font-size:16px;
+	font-weight:400;
+}
+
+.jazz-timeline .timeline-post.no-padding .timeline-content { padding: 0; }
+.jazz-timeline .timeline-post .timeline-content .content{
+	padding: 0px 10px 0px 8px;
 	line-height:25px;
 	font-size:16px;
 	font-weight:400;
@@ -387,10 +318,28 @@ TIMELINE DIVIDERS | DECORATIONS
 
 .jazz-timeline .timeline-post .timeline-content .content-title {
 	font-size: 24px;
-	font-family:"Alegreya Sans", Arial, Helvetica, sans-serif;
+	font-family:'Jaldi', sans-serif;
 	margin: 0;
-	color:#27ACCE;
-	font-weight:500;
+	font-weight:700;
+	background: #E7EBEE;
+	padding: 0px 10px 0px 8px;
+	margin: 0px;
+	-webkit-border-radius: 2px 0px 2px 2px;
+	-moz-border-radius: 2px 0px 2px 2px;
+	border-radius: 2px 0px 2px 2px;
+}
+
+.jazz-timeline .timeline-post:nth-child(even) .timeline-content .content-title {
+	font-size: 24px;
+	font-family:'Jaldi', sans-serif;
+	margin: 0;
+	font-weight:700;
+	background: #E7EBEE;
+	padding: 0px 10px 0px 8px;
+	margin: 0px;
+	-webkit-border-radius: 0px 2px 2px;
+	-moz-border-radius: 0px 2px 2px;
+	border-radius: 0px 2px 2px;
 }
 
 .jazz-timeline .timeline-post .timeline-content .content-title span{
@@ -399,7 +348,7 @@ TIMELINE DIVIDERS | DECORATIONS
   white-space: nowrap;
 }
 
-.jazz-timeline .timeline-post .timeline-content .content-details { margin: 0; }
+.jazz-timeline .timeline-post .timeline-content .content-details { margin: 5px 0px 0px; }
 
 /* Posts arrows
 -------------------------------------------------------------- */
@@ -407,31 +356,31 @@ TIMELINE DIVIDERS | DECORATIONS
 .jazz-timeline .timeline-post .timeline-content:after {
 	content: "";
 	display: block;
-	border: 15px solid transparent;
+	border: 20px solid transparent;
 	border-left-color: #fff;
 	position: absolute;
-	right: -30px;
-	top: 26px;
+	right: -40px;
+	top: 0px;
 }
 
 .jazz-timeline .timeline-post .timeline-content:after {
-	border: 14px solid transparent;
+	border: 20px solid transparent;
 	border-left-color: #fff;
-	right: -28px;
-	top: 27px;
+	right: -40px;
+	top: 0px;
 }
 
 .jazz-timeline .timeline-post:nth-child(even) .timeline-content:before {
-	border: 15px solid transparent;
+	border: 20px solid transparent;
 	border-right-color: #fff;
-	left: -30px;
+	left: -40px;
 	right: auto;
 }
 
 .jazz-timeline .timeline-post:nth-child(even) .timeline-content:after {
-	border: 14px solid transparent;
+	border: 20px solid transparent;
 	border-right-color: #fff;
-	left: -28px;
+	left: -40px;
 	right: auto;
 }
 
@@ -439,17 +388,17 @@ TIMELINE DIVIDERS | DECORATIONS
 -------------------------------------------------------------------- */
 .jazz-timeline.one-sided .timeline-post .timeline-content:after,
 .jazz-timeline.one-sided .timeline-post .timeline-content:before{
-	border: 15px solid transparent;
+	border: 21px solid transparent;
 	border-right-color: #fff;
-	left: -30px;
+	left: -31px;
 	right: auto;
 }
 
 .jazz-timeline.one-sided .timeline-post:nth-child(even) .timeline-content:after,
 .jazz-timeline.one-sided .timeline-post:nth-child(even) .timeline-content:before{
-	border: 14px solid transparent;
+	border: 21px solid transparent;
 	border-right-color: #fff;
-	left: -28px;
+	left: -31px;
 	right: auto;
 }
 
@@ -464,7 +413,9 @@ TIMELINE POST THEME
 ---------------------------------------------- */
 .jazz-timeline .grey-post .timeline-content{
 	background:#FFFFFF;
-	border: 1px solid #FFFFFF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	color:#687486;
 }
 
@@ -472,22 +423,16 @@ TIMELINE POST THEME
 	color:#3F51B5;
 }
 .jazz-timeline .grey-post .timeline-content:after,
-.jazz-timeline .grey-post .timeline-content:before { border-left-color:#FFFFFF; }
+.jazz-timeline .grey-post .timeline-content:before { border-left-color:#E7EBEE; }
 .jazz-timeline .grey-post:nth-child(even) .timeline-content:after,
 .jazz-timeline .grey-post:nth-child(even) .timeline-content:before,
 .jazz-timeline.one-sided .grey-post .timeline-content:after,
 .jazz-timeline.one-sided .grey-post .timeline-content:before,
 .jazz-timeline.one-sided .grey-post:nth-child(even) .timeline-content:after,
 .jazz-timeline.one-sided .grey-post:nth-child(even) .timeline-content:before {
-	border: 15px solid transparent;
-	border-right-color:#FFFFFF;
+	border: 20px solid transparent;
+	border-right-color:#E7EBEE;
 }
-
-/*
-------------------------------------------------
-TIMELINE STYLES
-------------------------------------------------
-*/
 
 /* solid shadow timeline | dark solid shadows on posts
 -------------------------------------------------------------- */
@@ -495,124 +440,6 @@ TIMELINE STYLES
 	-webkit-box-shadow: 0 4px rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: 0 4px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 4px rgba(0, 0, 0, 0.2);
-}
-
-.solid-shadow .timeline-post .timeline-content:before{
-	border: 15px solid transparent;
-	border-left-color: rgba(0, 0, 0, 0.2);
-	right: -31px;
-	top: 29px;
-}
-
-.solid-shadow .timeline-post:nth-child(even) .timeline-content:before {
-	border: 15px solid transparent;
-	border-right-color: rgba(0, 0, 0, 0.2);
-	left: -31px;
-	top: 30px;
-}
-
-/*
---------------------------------------------------------------------------------
-TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
---------------------------------------------------------------------------------
-*/
-
-/* media wrappers
----------------------------------------------------------- */
-.jazz-timeline .timeline-post .timeline-content .video-box:last-child,
-.jazz-timeline .timeline-post .timeline-content blockquote:last-child { margin-bottom: 0; }
-.jazz-timeline .timeline-post .timeline-content img {
-	max-width:100%;
-	display:block;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-
-/* google maps
----------------------------------------------------------- */
-.jazz-timeline .timeline-post .content-details .map {
-	display:block;
-	height:200px;
-	width: 100%;
-}
-
-.jazz-timeline .timeline-post .content-details .map-wrap {
-	width: 240px;
-	overflow:hidden;
-}
-
-.jazz-timeline .timeline-post .content-details .map-wrap .map-title {
-	font-size: 14px;
-	text-transform: uppercase;
-	line-height: normal;
-	padding-bottom: 4px;
-	display: block;
-	color: #27ACCE;
-	width: 100%;
-	margin:0;
-}
-
-.jazz-timeline .timeline-post .content-details .map-wrap p {
-	clear: both;
-	font-size:14px;
-	display: block;
-	padding-bottom:2px;
-	color: #999;
-	margin:0;
-}
-
-.jazz-timeline .timeline-post .content-details .map-wrap .map-info {
-	font-size: 12px;
-	margin-top:5px;
-	color: #444;
-}
-
-.jazz-timeline .timeline-post .content-details .map-wrap .map-info i {
-	margin-right: 5px;
-	font-size:14px;
-}
-
-
-
-/* video | youtube | vimeo
------------------------------------------------------------------ */
-.jazz-timeline .timeline-post .content-details .map,
-.jazz-timeline .timeline-post .content-details .media-container{
-	margin-top:10px;
-	border:5px solid #fff;
-	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-}
-.jazz-timeline .timeline-post .content-details .media-box{
-	float: none;
-	clear: both;
-	width: 100%;
-	position: relative;
-	padding-bottom: 56.25%;
-	padding-top: 25px;
-	height: 0;
-}
-
-.jazz-timeline .timeline-post .content-details .media-box iframe,
-.jazz-timeline .timeline-post .content-details .media-box object,
-.jazz-timeline .timeline-post .content-details .media-box embed,
-.jazz-timeline .timeline-post .content-details .media-box video {
-	position: absolute;
-	width: 100%!important;
-	height: 100%!important;
-	border:0;
-	left: 0;
-	top: 0;
-}
-
-.jazz-timeline .timeline-post .content-details .audio-box iframe{
-	width: 100%!important;
-	height: 100%!important;
-	display:block;
-	margin:0;
-	border:0;
 }
 
 /* @responsive styling
@@ -632,7 +459,7 @@ TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
 	.jazz-timeline .timeline-post:nth-child(even) .timeline-meta {
 		left: 0;
 		right: 0;
-		margin: 0 0 5px;
+		margin: 0px;
 		position: relative;
 		text-align: left;
 	}
@@ -647,7 +474,6 @@ TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
 		margin: 0 0 30px 6px;
 	}
 
-	/* Muir */
 	.add-first-activity {
 		position: absolute;
 		padding: 5px 5px 5px 5px;
@@ -664,37 +490,35 @@ TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
 
 	.jazz-timeline .timeline-post:nth-child(odd) .timeline-icon {
 		left: 0px;
-		margin: 18px -25px 0 -10px;
+		margin: -3px -25px 0 -10px;
 
 	}
-
-	/* end Muir */
 
 	.jazz-timeline .timeline-post .timeline-content:before,
 	.jazz-timeline .timeline-post:nth-child(even) .timeline-content:before {
 		border: 15px solid transparent;
-		border-right-color: #FFFFFF;
-		left: -30px;
+		border-right-color: #E7EBEE;
+		left: -31px;
 		right: auto;
 	}
 
 	.jazz-timeline .timeline-post .timeline-content:after,
 	.jazz-timeline .timeline-post:nth-child(even) .timeline-content:after {
-		border: 14px solid transparent;
-		border-right-color: #FFFFFF;
-		left: -28px;
+		border: 20px solid transparent;
+		border-right-color: #E7EBEE;
+		top: 0px;
+		left: -40px;
 		right: auto;
 	}
 
 	.jazz-timeline .grey-post .timeline-content:after,
 	.jazz-timeline .grey-post .timeline-content:before,
 	.jazz-timeline .grey-post:nth-child(even) .timeline-content:after,
-	.jazz-timeline .grey-post:nth-child(even) .timeline-content:before { border-right-color:#FFFFFF; }
+	.jazz-timeline .grey-post:nth-child(even) .timeline-content:before { border-right-color:#E7EBEE; }
 
 	.solid-shadow .timeline-post .timeline-content:before,
 	.solid-shadow .timeline-post:nth-child(even) .timeline-content:before{
 		border: 15px solid transparent;
-		border-right-color: rgba(0, 0, 0, 0.2);
 		left: -31px;
 		top: 29px;
 	}
@@ -711,7 +535,7 @@ TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
 	.bordered-timeline .timeline-post:nth-child(even) .timeline-content:before {
 		border: 15px solid transparent;
 		border-right-color: #bbb;
-		left: -30px;
+		left: -31px;
 		top: 26px;
 	}
 
@@ -722,7 +546,7 @@ TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
 	.jazz-timeline .timeline-post .icon-larger,
 	.jazz-timeline.one-sided .timeline-post .icon-larger{
 		left: 0;
-		margin: 18px 0 0 -10px;
+		margin: -3px 0 0 -10px;
 		line-height: 50px;
 		height: 50px;
 		width: 50px;
@@ -738,5 +562,17 @@ TIMELINE CONTENT | VIDEO | IMAGES | IFRAMES | AUDIO | MAPS | TEXT | E.T.C
 		line-height:0;
 		font-weight:700;
 		font-size:18px;
+	}
+
+	.jazz-timeline .timeline-post .timeline-content .content-title {
+		-webkit-border-radius: 0px 2px 2px;
+		-moz-border-radius: 0px 2px 2px;
+		border-radius: 0px 2px 2px;
+	}
+
+	.jazz-timeline .timeline-post:nth-child(even) .timeline-content .content-title {
+		-webkit-border-radius: 0px 2px 2px;
+		-moz-border-radius: 0px 2px 2px;
+		border-radius: 0px 2px 2px;
 	}
 }

@@ -168,7 +168,8 @@ export function fetchTrip(username, tripId) {
       });
       const newActivities = lodgingAndCarActivities.map(function(activity) {
         const start = activity.end;
-        return { ...activity, start };
+        const isSecondPart = true;
+        return { ...activity, start, isSecondPart };
       });
 
       const allActivities = [...fetchedActivities, ...newActivities];

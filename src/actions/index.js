@@ -108,7 +108,22 @@ export function fetchTripList(username) {
           return fetchedActivities[activity.index];
         });
 
-        return { ...trip, activities };
+        // If the trip is over, then add a flag
+        if (activities.length > 0) {
+          const lastActivity = activities[activities.length - 1];
+          console.log('lastActivity: ', lastActivity);
+          const currentDate = moment();
+          let tripEndDate = moment(lastActivity.start);
+          let isTripOver = false;
+
+          if (lastActivity.end) tripEndDate = moment(lastActivity.end);
+
+          if (tripEndDate.isBefore(currentDate)) isTripOver = true;
+
+          return { ...trip, activities, isTripOver };
+        }
+
+        return trip;
       });
 
       // Then, sort trips by first activity's start before sending them on

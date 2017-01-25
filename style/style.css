@@ -146,6 +146,10 @@ a:hover {
   margin-bottom: 10px;
 }
 
+.current-past-trips-button {
+  display: inline !important;
+}
+
 /* @responsive styling
 ----------------------------------------------- */
 @media (max-width: 860px) {

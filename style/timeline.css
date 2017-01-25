@@ -477,15 +477,18 @@ TIMELINE POST THEME
 	.add-first-activity {
 		position: absolute;
 		padding: 5px 5px 5px 5px;
-		margin: -4px 0px 0px 46px;
+		margin: -8px 0px 0px 50px;
+		-webkit-border-radius: 0px 2px 2px;
+		-moz-border-radius: 0px 2px 2px;
+		border-radius: 0px 2px 2px;
 	}
 
 	.add-first-activity:before,
 	.add-first-activity:after {
-		border: 14px solid transparent;
+		border: 17px solid transparent;
 		border-right-color: #FFFFFF;
-		right: 108px;
-		top: -1px;
+		right: 109px;
+		top: 0px;
 	}
 
 	.jazz-timeline .timeline-post:nth-child(odd) .timeline-icon {

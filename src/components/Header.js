@@ -34,8 +34,8 @@ class Header extends Component {
       );
     }
 
-    // TODO: Show a drawer on the left with a link to settings like changing password
-    return;
+    // Can add code here for a drawer on the left
+    return <div></div>;
   }
 
   showTitle() {

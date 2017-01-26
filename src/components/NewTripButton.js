@@ -12,7 +12,7 @@ import * as actions from '../actions/';
 // Validation functions for redux-form
 const required = value => value == null ? 'Required' : undefined;
 
-class NewTripCard extends Component {
+class NewTripButton extends Component {
   constructor(props) {
     super(props);
     this.state = { open: false, };
@@ -95,7 +95,9 @@ class NewTripCard extends Component {
   }
 
   render() {
-    if (this.props.numTrips === 0) {
+    const hasEverCreatedATrip = this.props.hasEverCreatedATrip;
+
+    if (this.props.numTrips === 0 || !hasEverCreatedATrip) {
       return (
         <div>
           <div className="jazz-timeline-wrapper">
@@ -125,11 +127,12 @@ class NewTripCard extends Component {
 function mapStateToProps(state) {
   return {
     errorMessage: state.auth.error,
+    hasEverCreatedATrip: state.trips.hasEverCreatedATrip,
   };
 }
 
 const newTripForm = reduxForm({
   form: 'newTrip',
-})(NewTripCard);
+})(NewTripButton);
 
 export default withRouter(connect(mapStateToProps, actions)(newTripForm));

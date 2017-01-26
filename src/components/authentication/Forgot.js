@@ -22,6 +22,10 @@ class Forgot extends Component {
     this.props.forgotPassword({ email });
   }
 
+  handleCancel() {
+    browserHistory.push('/');
+  }
+
   renderAlert() {
     if (this.props.errorMessage) {
       return <div className="error-alert">{this.props.errorMessage}</div>;
@@ -56,6 +60,12 @@ class Forgot extends Component {
                 className="submit-button"
                 >
                 SUBMIT
+              </FlatButton>
+              <FlatButton
+                className="submit-button"
+                onClick={() => this.handleCancel()}
+                >
+                CANCEL
               </FlatButton>
           </div>
         </form>

@@ -49,48 +49,54 @@ class Signup extends Component {
     }
 
     return(
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <Field component={TextField}
-          name="email"
-          hintText="Email"
-          validate={[emailRequired, emailFormat]}
-          errorStyle={style.error}
-          className="text-field"
-          onClick={() => this.clearErrorMessage()}
-        />
+      <div>
+        <div className="not-registered">Sign up and start your planning!</div>
         <br />
-        <Field component={TextField}
-          name="username"
-          hintText="Username"
-          validate={[usernameRequired, usernameFormat]}
-          errorStyle={style.error}
-          className="text-field"
-          onClick={() => this.clearErrorMessage()}
-        />
-        <br />
-        <Field component={TextField}
-          name="password"
-          hintText="Password"
-          type="password"
-          validate={[passwordRequired, passwordLength, passwordCharacters]}
-          errorStyle={style.error}
-          className="text-field"
-          onClick={() => this.clearErrorMessage()}
+        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          <Field component={TextField}
+            name="email"
+            hintText="Email"
+            validate={[emailRequired, emailFormat]}
+            errorStyle={style.error}
+            className="text-field"
+            onClick={() => this.clearErrorMessage()}
           />
-        {this.renderAlert()}
-        <div><FlatButton
-              type="submit"
-              disabled={pristine || !valid || submitting}
-              className="submit-button"
-              >
-              SIGN UP
-            </FlatButton>
-        </div>
-        <div className="not-registered">
-          <span>Already have an account? </span>
-          <a className="sign-up-link" onClick={this.handleTouchTap.bind(this)} style={{cursor: "pointer"}}>Sign In</a>
-        </div>
-      </form>
+          <br />
+          <Field component={TextField}
+            name="username"
+            hintText="Username"
+            validate={[usernameRequired, usernameFormat]}
+            errorStyle={style.error}
+            className="text-field"
+            onClick={() => this.clearErrorMessage()}
+          />
+          <br />
+          <Field component={TextField}
+            name="password"
+            hintText="Password"
+            type="password"
+            validate={[passwordRequired, passwordLength, passwordCharacters]}
+            errorStyle={style.error}
+            className="text-field"
+            onClick={() => this.clearErrorMessage()}
+            />
+          {this.renderAlert()}
+          <div><FlatButton
+                type="submit"
+                disabled={pristine || !valid || submitting}
+                className="submit-button"
+                >
+                SIGN UP
+              </FlatButton>
+              <FlatButton
+                className="submit-button"
+                onClick={() => this.handleTouchTap()}
+                >
+                CANCEL
+              </FlatButton>
+          </div>
+        </form>
+      </div>
     );
   }
 }

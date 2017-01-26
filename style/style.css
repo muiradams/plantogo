@@ -150,6 +150,11 @@ a:hover {
   display: inline !important;
 }
 
+.loading-spinner {
+  left: 47%;
+  margin-top: 200px;
+}
+
 /* @responsive styling
 ----------------------------------------------- */
 @media (max-width: 860px) {

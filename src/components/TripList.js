@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import  TripCard  from './TripCard';
-import NewTripCard from './NewTripCard';
+import NewTripButton from './NewTripButton';
 import * as actions from '../actions/';
 
 class TripList extends Component {
@@ -25,7 +26,7 @@ class TripList extends Component {
       if (this.state.isShowingPastTrips) {
         return (
           <RaisedButton
-            label="Show Current Trips"
+            label="Show Upcoming Trips"
             className="current-past-trips-button"
             onClick={this.handleTouchTap.bind(this)}
           />
@@ -47,6 +48,10 @@ class TripList extends Component {
   }
 
   render() {
+    if (this.props.isFetching) {
+      return <CircularProgress className="loading-spinner" size={50} thickness={5} />;
+    }
+
     const trips = this.props.trips;
     let tripsToShow = []
     let upcomingTrips = [];
@@ -56,15 +61,14 @@ class TripList extends Component {
     if (trips.length > 0) {
       upcomingTrips = trips.filter(trip => !trip.isTripOver);
       pastTrips = trips.filter(trip => trip.isTripOver);
-      isPastTrips = pastTrips ? true: false;
+      isPastTrips = pastTrips.length > 0 ? true: false;
       tripsToShow = this.state.isShowingPastTrips ? pastTrips : upcomingTrips;
-      console.log("Trips to show: ", tripsToShow);
     }
 
     return (
       <div>
         {this.renderTripButtons(isPastTrips)}
-        <NewTripCard numTrips={tripsToShow.length} />
+        <NewTripButton numTrips={tripsToShow.length} />
         {this.renderTripList(tripsToShow)}
       </div>
     );
@@ -74,6 +78,7 @@ class TripList extends Component {
 function mapStateToProps(state) {
   return {
     trips: state.trips.allTrips,
+    isFetching: state.trips.isFetching,
   };
 }
 

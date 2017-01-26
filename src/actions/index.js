@@ -8,9 +8,11 @@ import {
   CLEAR_MEASUREMENTS,
   DELETE_ACTIVITY,
   DELETE_TRIP,
+  FETCHING,
   FETCH_ACTIVITY,
   FETCH_TRIP,
   FETCH_TRIPLIST,
+  HAS_EVER_CREATED_TRIP,
   SAVE_MEASUREMENTS,
   UNAUTH_USER,
 } from './types';
@@ -88,6 +90,11 @@ export function resetPassword({ password }, token) {
 
 export function fetchTripList(username) {
   return function(dispatch) {
+    dispatch({
+      type: FETCHING,
+      payload: true,
+    });
+
     axios.get(`${API_URL}/user/${username}`, {
       headers: { Authorization: localStorage.getItem('token')}
     })
@@ -111,7 +118,6 @@ export function fetchTripList(username) {
         // If the trip is over, then add a flag
         if (activities.length > 0) {
           const lastActivity = activities[activities.length - 1];
-          console.log('lastActivity: ', lastActivity);
           const currentDate = moment();
           let tripEndDate = moment(lastActivity.start);
           let isTripOver = false;
@@ -121,6 +127,13 @@ export function fetchTripList(username) {
           if (tripEndDate.isBefore(currentDate)) isTripOver = true;
 
           return { ...trip, activities, isTripOver };
+        }
+
+        // Check to see if user has created any trips other than example trip
+        if (trip.tripName !== 'Paris (Example Trip)') {
+          dispatch({
+            type: HAS_EVER_CREATED_TRIP,
+          });
         }
 
         return trip;
@@ -167,6 +180,11 @@ export function clearTripsFromStore() {
 
 export function fetchTrip(username, tripId) {
   return function(dispatch) {
+    dispatch({
+      type: FETCHING,
+      payload: true,
+    });
+
     axios.get(`${API_URL}/user/${username}/trip/${tripId}`, {
       headers: { Authorization: localStorage.getItem('token')}
     })
@@ -273,6 +291,11 @@ export function clearTripFromStore() {
 
 export function fetchActivity(username, tripId, activityId) {
   return function(dispatch) {
+    dispatch({
+      type: FETCHING,
+      payload: true,
+    });
+
     axios.get(`${API_URL}/user/${username}/trip/${tripId}/activity/${activityId}`, {
       headers: { Authorization: localStorage.getItem('token')}
     })

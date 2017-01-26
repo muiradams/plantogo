@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import moment from 'moment';
 import * as actions from '../actions/';
 import TripActivity from './TripActivity';
+import CircularProgress from 'material-ui/CircularProgress';
 import AddIcon from 'material-ui/svg-icons/content/add-circle-outline';
 
 class TripDetail extends Component {
@@ -92,6 +93,10 @@ class TripDetail extends Component {
   }
 
   render() {
+    if (this.props.isFetching) {
+      return <CircularProgress className="loading-spinner" size={50} thickness={5} />;
+    }
+
     const trip = this.props.trip;
 
     if (trip) {
@@ -153,6 +158,7 @@ function mapStateToProps(state) {
   return {
     trip: state.trips.trip,
     measurements: state.measurements,
+    isFetching: state.trips.isFetching,
   };
   // For testing: view layout without any activities created
   // return { trip: [] };

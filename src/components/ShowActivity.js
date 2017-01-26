@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {Grid, Row, Column } from 'react-cellblock';
 import moment from 'moment';
+import CircularProgress from 'material-ui/CircularProgress';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
@@ -400,6 +401,10 @@ class ShowActivity extends Component {
   }
 
   render() {
+    if (this.props.isFetching) {
+      return <CircularProgress className="loading-spinner" size={50} thickness={5} />;
+    }
+
     const activity = this.props.activity;
     const { handleSubmit, submitting, valid } = this.props;
     const style = {
@@ -493,6 +498,7 @@ function mapStateToProps(state) {
     activity: state.trips.activity,
     errorMessage: state.auth.error,
     initialValues: state.trips.activity,
+    isFetching: state.trips.isFetching,
   };
 }
 

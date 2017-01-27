@@ -17,7 +17,8 @@ import {
   UNAUTH_USER,
 } from './types';
 
-const API_URL = "http://localhost:3090";
+// Assign SERVER_URL in production deployment
+const API_URL = process.env.SERVER_URL || 'http://localhost:3090';
 
 export function authError(error) {
   return {

@@ -1,16 +1,18 @@
 {
-  "name": "plan-to-go",
+  "name": "PlanToGo",
   "version": "1.0.0",
-  "description": "A simple single-page app for creating travel itineraries.",
+  "description": "A single-page web app for creating travel itineraries.",
   "main": "index.js",
-  "repository": "",
+  "repository": "https://github.com/muiradams/plantogo",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "postinstall": "webpack -p --config ./webpack.config.prod.js",
+    "start": "node server.js"
   },
   "author": "Muir Adams",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "devDependencies": {
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",

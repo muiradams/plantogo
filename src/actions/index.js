@@ -17,8 +17,8 @@ import {
   UNAUTH_USER,
 } from './types';
 
-// Assign SERVER_URL in webpack.config.prod.js during deployment
-const API_URL = process.env.SERVER_URL || 'http://localhost:3090';
+// Assign SERVER_URL in webpack.config.prod.js when deploying
+const API_URL = process.env.SERVER_URL;
 
 export function authError(error) {
   return {

@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   context: __dirname,
   entry: [
     './src/index.js'
@@ -22,7 +22,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'SERVER_URL': 'http://server.plantogo.co'
+        'SERVER_URL': JSON.stringify('http://server.plantogo.co')
       }
     })
   ],

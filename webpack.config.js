@@ -11,6 +11,14 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('development'),
+        'SERVER_URL': JSON.stringify('http://localhost:3090')
+      }
+    })
+  ],
   module: {
     loaders: [{
       exclude: /node_modules/,

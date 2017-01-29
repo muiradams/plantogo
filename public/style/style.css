@@ -90,14 +90,11 @@ body {
   text-align: center;
 }
 
-.text-field {
-  /*margin-bottom: 5px;*/
-}
-
 .long-text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: inline;
 }
 
 .submit-button {
@@ -173,8 +170,8 @@ a:hover {
   color: rgba(255, 255, 255, .35) !important;
   width: 22px !important;
   height: 22px !important;
-  position: absolute;
-  top: 17px;
+  position: relative;
+  top: 5px;
   left: 10px;
 }
 

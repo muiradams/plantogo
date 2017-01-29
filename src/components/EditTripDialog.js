@@ -159,12 +159,14 @@ class EditTripDialog extends Component {
     return (
       <div style={{cursor: "pointer"}}
         onClick={() => this.handleOpen()}
-        className="long-text"
+        style={{ minWidth: 0, display: "flex" }}
         >
-        {tripName}
-        <IconButton>
+        <div className="long-text">{tripName}</div>
+        <div style={{ display: "inline", whiteSpace: "nowrap" }}>
+        <IconButton style={{ right: "13px", minWidth: "25px" }}>
           <EditIcon className="edit-icon" />
         </IconButton>
+        </div>
         {this.renderDialog()}
       </div>
     );

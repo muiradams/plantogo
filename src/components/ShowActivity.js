@@ -417,68 +417,67 @@ class ShowActivity extends Component {
     }
 
     return(
-      <Grid>
-        <div className="background-dark-cover"></div>
-        <Paper className="form-container" zDepth={1}>
-          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-            <Row>
-              <Column>
-                <Field component={SelectField}
-                  name="activityType"
-                  hintText="Activity Type*"
-                  floatingLabelText="Activity Type*"
-                  validate={[required]}
-                  errorStyle={style.error}
-                  className="text-field"
-                  style={style.fullLength}
-                  hintStyle={{left: "0px"}}
-                  onClick={() => this.clearErrorMessage()}
-                >
-                  <MenuItem value="flight" primaryText="Flight" leftIcon={<FlightIcon />} />
-                  <MenuItem value="lodging" primaryText="Lodging" leftIcon={<LodgingIcon />} />
-                  <MenuItem value="restaurant" primaryText="Restaurant" leftIcon={<RestaurantIcon />} />
-                  <MenuItem value="car" primaryText="Car Rental" leftIcon={<CarIcon />} />
-                  <MenuItem value="train" primaryText="Train" leftIcon={<TrainIcon />} />
-                  <MenuItem value="bus" primaryText="Bus" leftIcon={<BusIcon />} />
-                  <MenuItem value="meeting" primaryText="Meeting" leftIcon={<MeetingIcon />} />
-                  <MenuItem value="tour" primaryText="Tour" leftIcon={<TourIcon />} />
-                  <MenuItem value="attraction" primaryText="Attraction" leftIcon={<AttractionIcon />} />
-                  <MenuItem value="event" primaryText="Event" leftIcon={<EventIcon />} />
-                  <MenuItem value="ferry" primaryText="Ferry" leftIcon={<FerryIcon />} />
-                  <MenuItem value="cruise" primaryText="Cruise" leftIcon={<CruiseIcon />} />
-                  <MenuItem value="other" primaryText="Other" leftIcon={<OtherIcon />} />
-                </Field>
-              </Column>
-            </Row>
-            {this.renderFormContents()}
-            {this.renderAlert()}
-            <Row>
-              <Column width="4/14">
-                {this.renderDeleteButton()}
-              </Column>
-              <Column width="2/14"></Column>
-              <Column width="4/14">
-                <FlatButton
-                  type="submit"
-                  disabled={ !valid || submitting}
-                  className="submit-button"
+      <div  className="under-the-header">
+        <Grid>
+          <div className="background-dark-cover-activity"></div>
+          <Paper className="form-container" zDepth={1}>
+            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+              <Row>
+                <Column>
+                  <Field component={SelectField}
+                    name="activityType"
+                    hintText="Activity Type*"
+                    floatingLabelText="Activity Type*"
+                    validate={[required]}
+                    errorStyle={style.error}
+                    className="text-field"
+                    style={style.fullLength}
+                    hintStyle={{left: "0px"}}
+                    onClick={() => this.clearErrorMessage()}
                   >
-                  SAVE
-                </FlatButton>
-              </Column>
-              <Column width="4/14">
-                <FlatButton
-                  className="submit-button"
-                  onClick={() => this.handleCancel()}
-                  >
-                  CANCEL
-                </FlatButton>
-              </Column>
-            </Row>
-          </form>
-          <div className="required-field-text">* required field</div>
-        </Paper>
-      </Grid>
+                    <MenuItem value="flight" primaryText="Flight" leftIcon={<FlightIcon />} />
+                    <MenuItem value="lodging" primaryText="Lodging" leftIcon={<LodgingIcon />} />
+                    <MenuItem value="restaurant" primaryText="Restaurant" leftIcon={<RestaurantIcon />} />
+                    <MenuItem value="car" primaryText="Car Rental" leftIcon={<CarIcon />} />
+                    <MenuItem value="train" primaryText="Train" leftIcon={<TrainIcon />} />
+                    <MenuItem value="bus" primaryText="Bus" leftIcon={<BusIcon />} />
+                    <MenuItem value="meeting" primaryText="Meeting" leftIcon={<MeetingIcon />} />
+                    <MenuItem value="tour" primaryText="Tour" leftIcon={<TourIcon />} />
+                    <MenuItem value="attraction" primaryText="Attraction" leftIcon={<AttractionIcon />} />
+                    <MenuItem value="event" primaryText="Event" leftIcon={<EventIcon />} />
+                    <MenuItem value="ferry" primaryText="Ferry" leftIcon={<FerryIcon />} />
+                    <MenuItem value="cruise" primaryText="Cruise" leftIcon={<CruiseIcon />} />
+                    <MenuItem value="other" primaryText="Other" leftIcon={<OtherIcon />} />
+                  </Field>
+                </Column>
+              </Row>
+              {this.renderFormContents()}
+              {this.renderAlert()}
+              <Row>
+                <Column width="1/3">
+                  {this.renderDeleteButton()}
+                </Column>
+                <Column width="2/3" className="save-cancel-buttons">
+                  <FlatButton
+                    type="submit"
+                    disabled={ !valid || submitting}
+                    className="submit-button"
+                    >
+                    SAVE
+                  </FlatButton>
+                  <FlatButton
+                    className="submit-button"
+                    onClick={() => this.handleCancel()}
+                    >
+                    CANCEL
+                  </FlatButton>
+                </Column>
+              </Row>
+            </form>
+            <div className="required-field-text">* required field</div>
+          </Paper>
+        </Grid>
+      </div>
     );
   }
 }

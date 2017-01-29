@@ -13,15 +13,36 @@ body {
 }
 
 .background-dark-cover {
-    min-height: 100%;
-    min-width: 100%;
-    width: 100%;
-    height: auto;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    background-color: rgba(0, 0, 0, 0.75);;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.75);;
+}
+
+.background-dark-cover-activity {
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.75);;
+}
+
+.show-user-container {
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  height: auto;
+  top: 0;
+  left: 0;
 }
 
 .welcome-title {
@@ -54,6 +75,12 @@ body {
   /*margin-bottom: 5px;*/
 }
 
+.long-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .submit-button {
   margin-top: 20px !important;
 }
@@ -84,6 +111,10 @@ a:hover {
 
 .under-the-header {
   padding-top: 64px;
+}
+
+.under-the-header-with-button {
+  padding-top: 105px;
 }
 
 .newTripIcon {
@@ -128,6 +159,10 @@ a:hover {
   left: 10px;
 }
 
+.edit-icon-container {
+  width: 22px;
+}
+
 .new-activity-date {
   color: #FFFFFF;
   font-size: 18px;
@@ -148,11 +183,19 @@ a:hover {
 
 .current-past-trips-button {
   display: inline !important;
+  min-width: 100% !important;
+  position: fixed;
+  top: 64px;
+  z-index: 20;
 }
 
 .loading-spinner {
   left: 47%;
   margin-top: 200px;
+}
+
+.save-cancel-buttons {
+  text-align: right;
 }
 
 /* @responsive styling
@@ -161,6 +204,49 @@ a:hover {
 
   .trip-card {
     margin: 0 20px 20px 20px;
+  }
+
+}
+
+@media (max-height: 700px) {
+
+  .welcome-title {
+    top: 9%;
+  }
+
+  .welcome-page {
+    top: 50%;
+  }
+
+}
+
+@media (max-height: 550px) {
+
+  .welcome-title {
+    text-align: left;
+    top: 20%;
+    left: 63%;
+  }
+
+  .welcome-page {
+    top: 10%;
+    left: 5%;
+    width: inherit;
+  }
+
+}
+
+@media (max-width: 400px) {
+
+  .form-container {
+    width: 100%;
+    margin: 0px;
+    box-shadow: none !important;
+    padding: 0;
+  }
+
+  .background-dark-cover-activity {
+    background-color: rgba(255, 255, 255, 1);
   }
 
 }

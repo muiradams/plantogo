@@ -327,6 +327,9 @@ TIMELINE DIVIDERS | DECORATIONS
 	-webkit-border-radius: 2px 0px 2px 2px;
 	-moz-border-radius: 2px 0px 2px 2px;
 	border-radius: 2px 0px 2px 2px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .jazz-timeline .timeline-post:nth-child(even) .timeline-content .content-title {

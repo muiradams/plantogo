@@ -38,6 +38,23 @@ class Header extends Component {
     return <div></div>;
   }
 
+  toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
+
+  formatActivityType(activityType) {
+    switch(activityType) {
+      case 'car':
+        return 'Car Rental';
+      case 'other':
+        return 'Activity';
+      default:
+        return this.toTitleCase(activityType);
+    }
+  }
+
   showTitle() {
     const { tripId: pathContainsTripId, activityId: pathContainsActivityId } = this.props.params;
     const { trip, activity } = this.props;
@@ -52,7 +69,7 @@ class Header extends Component {
 
     // Updating an activity
     if (pathContainsActivityId && activity) {
-      return activity.activityName;
+      return `Edit ${this.formatActivityType(activity.activityType)}`;
     }
 
     // Viewing a trip
@@ -72,9 +89,10 @@ class Header extends Component {
     const styles = {
       title: {
         position: 'relative',
-        left: '15px',
+        left: '0px',
         fontFamily: '"Jaldi", sans-serif',
         fontWeight: 400,
+        fontSize: '20px',
       },
       bar: {
         background: '#303F9F',

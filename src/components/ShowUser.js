@@ -5,11 +5,9 @@ import Header from './Header';
 export default class ShowUser extends Component {
   render() {
     return (
-      <div>
+      <div className="show-user-container">
         <Header />
-        <div className="under-the-header">
         {this.props.children}
-        </div>
       </div>
     );
   }

@@ -100,7 +100,7 @@ class EditTripDialog extends Component {
         float: "left"
       },
       dialog: {
-        width: '375px',
+        width: '300px',
       },
     };
 
@@ -110,12 +110,11 @@ class EditTripDialog extends Component {
         actions={null}
         modal={false}
         contentStyle={style.dialog}
+        bodyStyle={{ padding: "0px 16px 16px" }}
         open={this.state.open}
-        titleStyle={{padding: "30px 14px 20px 29px"}}
-        bodyStyle={{padding: "0 14px 24px 14px"}}
         onRequestClose={() => this.handleClose()}
       >
-        <Grid gutterWidth={10}>
+        <Grid gutterWidth={0}>
             <form onSubmit={handleSubmit(this.handleEditTrip.bind(this))}>
               <Field component={TextField}
                 name="tripName"
@@ -123,18 +122,16 @@ class EditTripDialog extends Component {
                 validate={[required]}
                 errorStyle={style.error}
                 className="text-field"
-                style={{marginLeft: "15px", width: "315px"}}
+                style={{ maxWidth: "100%", margin: "0px 5px" }}
                 onClick={() => this.clearErrorMessage()}
               />
               {this.renderAlert()}
               <div className="dialog-buttons">
                 <Row>
-                  <Column width="2/7">
+                  <Column width="1/3">
                     {this.renderDeleteButton()}
                   </Column>
-                  <Column width="1/7">
-                  </Column>
-                  <Column width="2/7">
+                  <Column width="2/3">
                     <FlatButton
                       type="submit"
                       disabled={ !valid || submitting}
@@ -142,8 +139,6 @@ class EditTripDialog extends Component {
                       >
                       SAVE
                     </FlatButton>
-                  </Column>
-                  <Column width="2/7">
                     <FlatButton
                       className="submit-button"
                       onClick={() => this.handleClose()}
@@ -162,7 +157,10 @@ class EditTripDialog extends Component {
   render() {
     const tripName = this.props.trip.tripName;
     return (
-      <div style={{cursor: "pointer"}} onClick={() => this.handleOpen()}>
+      <div style={{cursor: "pointer"}}
+        onClick={() => this.handleOpen()}
+        className="long-text"
+        >
         {tripName}
         <IconButton>
           <EditIcon className="edit-icon" />

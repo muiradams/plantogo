@@ -63,10 +63,20 @@ class TripList extends Component {
       pastTrips = trips.filter(trip => trip.isTripOver);
       isPastTrips = pastTrips.length > 0 ? true: false;
       tripsToShow = this.state.isShowingPastTrips ? pastTrips : upcomingTrips;
+
+      if (isPastTrips) {
+        return (
+          <div className="under-the-header-with-button">
+            {this.renderTripButtons(isPastTrips)}
+            <NewTripButton numTrips={tripsToShow.length} />
+            {this.renderTripList(tripsToShow)}
+          </div>
+        );
+      }
     }
 
     return (
-      <div>
+      <div className="under-the-header">
         {this.renderTripButtons(isPastTrips)}
         <NewTripButton numTrips={tripsToShow.length} />
         {this.renderTripList(tripsToShow)}

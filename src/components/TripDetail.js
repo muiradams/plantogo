@@ -113,7 +113,7 @@ class TripDetail extends Component {
       // If no activities have been created for this trip
       if (trip.activities.length === 0) {
         return (
-          <div>
+          <div className="under-the-header">
             <div className="background-dark-cover"></div>
             <div className="jazz-timeline-wrapper gradient-background">
               <div className="jazz-timeline solid-shadow">
@@ -129,7 +129,7 @@ class TripDetail extends Component {
       }
 
       return (
-        <div>
+        <div className="under-the-header">
           <div className="background-dark-cover"></div>
           <div className="jazz-timeline-wrapper">
             <div className="jazz-timeline solid-shadow">

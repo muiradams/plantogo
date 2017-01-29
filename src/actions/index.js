@@ -8,10 +8,11 @@ import {
   CLEAR_MEASUREMENTS,
   DELETE_ACTIVITY,
   DELETE_TRIP,
+  DONE_FETCHING,
   FETCHING,
-  FETCH_ACTIVITY,
-  FETCH_TRIP,
-  FETCH_TRIPLIST,
+  FETCHED_ACTIVITY,
+  FETCHED_TRIP,
+  FETCHED_TRIPLIST,
   HAS_EVER_CREATED_TRIP,
   SAVE_MEASUREMENTS,
   UNAUTH_USER,
@@ -33,13 +34,17 @@ export function clearError() {
 
 export function signinUser({ username, password }) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.post(`${API_URL}/signin`, { username, password })
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
         browserHistory.push(`/user/${username}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError('Incorrect username or password'));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -48,13 +53,17 @@ export function signinUser({ username, password }) {
 
 export function signupUser({ email, username, password }) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.post(`${API_URL}/signup`, { email, username, password })
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch({ type: AUTH_USER });
         localStorage.setItem('token', response.data.token);
         browserHistory.push(`/user/${username}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -68,9 +77,15 @@ export function signoutUser() {
 
 export function forgotPassword({ email }) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.post(`${API_URL}/forgot`, { email })
-      .then(response => dispatch(authError(response.data.message)))
+      .then(response => {
+        dispatch({ type: DONE_FETCHING, });
+        dispatch(authError(response.data.message));
+      })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -79,22 +94,25 @@ export function forgotPassword({ email }) {
 
 export function resetPassword({ password }, token) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.post(`${API_URL}/reset/${token}`, { password })
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(response.data.message));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
         browserHistory.push('/');
       })
-      .catch(error => dispatch(authError(error.response.data.error)));
+      .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
+        dispatch(authError(error.response.data.error));
+      });
   };
 }
 
 export function fetchTripList(username) {
   return function(dispatch) {
-    dispatch({
-      type: FETCHING,
-      payload: true,
-    });
+    dispatch({ type: FETCHING, });
 
     axios.get(`${API_URL}/user/${username}`, {
       headers: { Authorization: localStorage.getItem('token')}
@@ -159,13 +177,14 @@ export function fetchTripList(username) {
         return fetchedTrips[trip.index];
       });
 
+      dispatch({ type: DONE_FETCHING, });
       dispatch({
-        type: FETCH_TRIPLIST,
+        type: FETCHED_TRIPLIST,
         payload: trips,
       });
     })
     .catch(error => {
-      console.log(error);
+      dispatch({ type: DONE_FETCHING, });
       dispatch(authError(error.response.data.error));
       setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
     });
@@ -174,17 +193,14 @@ export function fetchTripList(username) {
 
 export function clearTripsFromStore() {
   return {
-    type: FETCH_TRIPLIST,
+    type: FETCHED_TRIPLIST,
     payload: null,
   }
 }
 
 export function fetchTrip(username, tripId) {
   return function(dispatch) {
-    dispatch({
-      type: FETCHING,
-      payload: true,
-    });
+    dispatch({ type: FETCHING, });
 
     axios.get(`${API_URL}/user/${username}/trip/${tripId}`, {
       headers: { Authorization: localStorage.getItem('token')}
@@ -222,12 +238,14 @@ export function fetchTrip(username, tripId) {
         return allActivities[activity.index];
       });
 
+      dispatch({ type: DONE_FETCHING, });
       dispatch({
-        type: FETCH_TRIP,
+        type: FETCHED_TRIP,
         payload: { ...response.data, activities },
       });
     })
     .catch(error => {
+      dispatch({ type: DONE_FETCHING, });
       dispatch(authError(error.response.data.error));
       setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
     });
@@ -236,15 +254,19 @@ export function fetchTrip(username, tripId) {
 
 export function createTrip(username, tripName) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.post(`${API_URL}/user/${username}`,
       { tripName },
       { headers: { Authorization: localStorage.getItem('token') }
       })
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         const tripId = response.data.tripId;
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -253,16 +275,20 @@ export function createTrip(username, tripName) {
 
 export function editTrip(username, tripId, tripName) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.put(`${API_URL}/user/${username}/trip/${tripId}`,
       { tripName },
       { headers: { Authorization: localStorage.getItem('token') }
       })
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(fetchTrip(username, tripId));
         dispatch(fetchTripList(username));
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -271,12 +297,16 @@ export function editTrip(username, tripId, tripName) {
 
 export function deleteTrip(username, tripId) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.delete(`${API_URL}/user/${username}/trip/${tripId}`,
       { headers: { Authorization: localStorage.getItem('token') }})
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         browserHistory.push(`/user/${username}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -285,17 +315,14 @@ export function deleteTrip(username, tripId) {
 
 export function clearTripFromStore() {
   return {
-    type: FETCH_TRIP,
+    type: FETCHED_TRIP,
     payload: null,
   }
 }
 
 export function fetchActivity(username, tripId, activityId) {
   return function(dispatch) {
-    dispatch({
-      type: FETCHING,
-      payload: true,
-    });
+    dispatch({ type: FETCHING, });
 
     axios.get(`${API_URL}/user/${username}/trip/${tripId}/activity/${activityId}`, {
       headers: { Authorization: localStorage.getItem('token')}
@@ -315,12 +342,14 @@ export function fetchActivity(username, tripId, activityId) {
         endTime = end.clone().toDate();
       }
 
+      dispatch({ type: DONE_FETCHING, });
       dispatch({
-        type: FETCH_ACTIVITY,
+        type: FETCHED_ACTIVITY,
         payload: { ...response.data, startDate, startTime, endDate, endTime, },
       });
     })
     .catch(error => {
+      dispatch({ type: DONE_FETCHING, });
       dispatch(authError(error.response.data.error));
       setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       browserHistory.push('/');
@@ -330,16 +359,20 @@ export function fetchActivity(username, tripId, activityId) {
 
 export function createActivity(username, tripId, activityData) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.post(`${API_URL}/user/${username}/trip/${tripId}/activity`,
       activityData,
       { headers: { Authorization: localStorage.getItem('token') }
       })
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(clearTripsFromStore());
         dispatch(fetchTripList(username));
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -352,7 +385,7 @@ export function startBlankActivity({ username, tripId, start }) {
       const startDate = start.clone().toDate();
       const startTime = start.clone().toDate();
       dispatch({
-        type: FETCH_ACTIVITY,
+        type: FETCHED_ACTIVITY,
         payload: { startDate, startTime },
       });
     }
@@ -363,17 +396,21 @@ export function startBlankActivity({ username, tripId, start }) {
 
 export function updateActivity(username, tripId, activityData) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.put(`${API_URL}/user/${username}/trip/${tripId}/activity/${activityData._id}`,
       activityData,
       { headers: { Authorization: localStorage.getItem('token') }
       })
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(clearTripFromStore());
         dispatch(clearTripsFromStore());
         dispatch(fetchTripList(username));
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
@@ -382,14 +419,18 @@ export function updateActivity(username, tripId, activityData) {
 
 export function deleteActivity(username, tripId, activityId) {
   return function(dispatch) {
+    dispatch({ type: FETCHING, });
+
     axios.delete(`${API_URL}/user/${username}/trip/${tripId}/activity/${activityId}`,
       { headers: { Authorization: localStorage.getItem('token') }})
       .then(response => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(clearTripsFromStore());
         dispatch(fetchTripList(username));
         browserHistory.push(`/user/${username}/trip/${tripId}`);
       })
       .catch(error => {
+        dispatch({ type: DONE_FETCHING, });
         dispatch(authError(error.response.data.error));
         setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import LoadingSpinner from './LoadingSpinner';
 
 // Required for material-ui buttons
 injectTapEventPlugin();
@@ -24,7 +25,10 @@ export default class App extends Component {
     return (
       <div>
         <MuiThemeProvider muiTheme={muiTheme}>
-          {this.props.children}
+          <div>
+            <LoadingSpinner />
+            {this.props.children}
+          </div>
         </MuiThemeProvider>
       </div>
     );

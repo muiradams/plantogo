@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import CircularProgress from 'material-ui/CircularProgress';
 import  TripCard  from './TripCard';
 import NewTripButton from './NewTripButton';
 import * as actions from '../actions/';
@@ -48,10 +47,6 @@ class TripList extends Component {
   }
 
   render() {
-    if (this.props.isFetching) {
-      return <CircularProgress className="loading-spinner" size={50} thickness={5} />;
-    }
-
     const trips = this.props.trips;
     let tripsToShow = []
     let upcomingTrips = [];
@@ -88,7 +83,6 @@ class TripList extends Component {
 function mapStateToProps(state) {
   return {
     trips: state.trips.allTrips,
-    isFetching: state.trips.isFetching,
   };
 }
 

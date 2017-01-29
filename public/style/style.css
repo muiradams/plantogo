@@ -36,6 +36,25 @@ body {
   background-color: rgba(0, 0, 0, 0.75);;
 }
 
+.loading-background {
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.loading-spinner {
+  position: fixed;
+  left: 45%;
+  margin-top: 200px;
+  z-index: 101;
+}
+
 .show-user-container {
   min-height: 100%;
   min-width: 100%;
@@ -187,11 +206,6 @@ a:hover {
   position: fixed;
   top: 64px;
   z-index: 20;
-}
-
-.loading-spinner {
-  left: 47%;
-  margin-top: 200px;
 }
 
 .save-cancel-buttons {

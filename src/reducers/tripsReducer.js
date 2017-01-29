@@ -1,9 +1,9 @@
 import {
-  CLEAR_TRIP,
+  DONE_FETCHING,
   FETCHING,
-  FETCH_ACTIVITY,
-  FETCH_TRIPLIST,
-  FETCH_TRIP,
+  FETCHED_ACTIVITY,
+  FETCHED_TRIPLIST,
+  FETCHED_TRIP,
   HAS_EVER_CREATED_TRIP,
 } from '../actions/types';
 
@@ -17,26 +17,28 @@ const INITIAL_STATE = {
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case DONE_FETCHING:
+      return { ...state, isFetching: false, }
     case FETCHING:
       return { ...state, isFetching: true, }
-    case FETCH_ACTIVITY:
+    case FETCHED_ACTIVITY:
       return {
         ...state,
         activity: action.payload,
-        isFetching: false,
+        // isFetching: false,
       };
-    case FETCH_TRIP:
+    case FETCHED_TRIP:
       return {
         ...state,
         trip: action.payload,
         activity: null,
-        isFetching: false,
+        // isFetching: false,
       };
-    case FETCH_TRIPLIST:
+    case FETCHED_TRIPLIST:
       return {
         ...state,
         allTrips: action.payload,
-        isFetching: false,
+        // isFetching: false,
       };
     case HAS_EVER_CREATED_TRIP:
       return { ...state, hasEverCreatedATrip: true }

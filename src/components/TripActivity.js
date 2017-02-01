@@ -161,6 +161,14 @@ class TripActivity extends Component {
       if (transportNumber) return `(${transportType}: ${transportNumber})`;
     }
 
+    const showStartLocation = () => {
+      if (startLocation) return `Start Location: ${startLocation}`;
+    }
+
+    const showEndLocation = () => {
+      if (endLocation) return `End Location: ${endLocation}`;
+    }
+
     switch(activityType) {
       case 'flight':
         return (
@@ -220,7 +228,12 @@ class TripActivity extends Component {
           </div>
         );
       default:
-        return;
+        return (
+          <div>
+            <div>{showStartLocation()}</div>
+            <div>{showEndLocation()}</div>
+          </div>
+        );
     }
   }
 

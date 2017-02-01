@@ -143,8 +143,8 @@ export default class StartEnd extends Component {
           <Column width="3/8">
             <Field component={TimePicker}
               name="startTime"
-              hintText="Time"
-              floatingLabelText="Time"
+              hintText="Time*"
+              floatingLabelText="Time*"
               format={null}
               validate={[required]}
               textFieldStyle={style.fullLength}

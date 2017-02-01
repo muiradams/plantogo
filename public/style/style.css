@@ -222,16 +222,16 @@ a:hover {
 @media (max-height: 700px) {
 
   .welcome-title {
-    top: 9%;
+    top: 10px;
   }
 
   .welcome-page {
-    top: 50%;
+    top: 215px;
   }
 
 }
 
-@media (max-height: 550px) {
+@media (max-height: 450px) {
 
   .welcome-title {
     text-align: left;

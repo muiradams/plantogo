@@ -46,7 +46,7 @@ export function signinUser({ username, password }) {
       .catch(error => {
         dispatch({ type: DONE_FETCHING, });
         dispatch(authError('Incorrect username or password'));
-        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
+//        setTimeout(() => dispatch({ type: CLEAR_ERROR, }), 3000);
       });
   };
 }

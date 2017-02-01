@@ -109,6 +109,7 @@ body {
 .error-alert {
   color: red;
   margin-bottom: -19px;
+  margin-top: 15px;
 }
 
 .not-registered {

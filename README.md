@@ -4,7 +4,7 @@ React and Redux.  The app requires [PlanToGo-Server](https://github.com/muiradam
 a RESTful API server which handles creating and authenticating users,
 and maintaining the database of travel itineraries.
 
-This app is currently deployed on Heroku here: http://www.plantogo.co
+This app is currently deployed on Heroku here: https://www.plantogo.co
 
 Install dependencies: npm install
 Start the server in development mode: npm run dev
